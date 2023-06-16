@@ -1,0 +1,19 @@
+---
+version: "3.5"
+
+volumes:
+  exclude:
+
+services:
+  villain-spa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: villain-spa
+    hostname: villain-spa
+    ports:
+      - 3000:3000
+      - 80:3000
+    volumes:
+      - exclude:/villain/node_modules/:z
+      - ./spa:/villain:z
