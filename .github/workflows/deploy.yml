@@ -10,17 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        working-directory: ./spa
         with:
           node-version: '20.x'
       - name: Build
+        with: 
+          working-directory: ./spa
         run: |
           npm install
           npm run build --if-present
 
       - uses: actions/upload-artifact@v3
-        working-directory: ./spa
         with:
+          working-directory: ./spa
           name: build-folder
           path: build/
   deploy:
