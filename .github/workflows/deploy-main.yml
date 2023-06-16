@@ -1,0 +1,37 @@
+name: deploy-main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        working-directory: ./spa
+        with:
+          node-version: '20.x'
+      - name: Build
+        run: |
+          npm install
+          npm run build --if-present
+
+      - uses: actions/upload-artifact@v3
+        working-directory: ./spa
+        with:
+          name: build-folder
+          path: build/
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-folder
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
+        run: |
+          aws s3 sync build/ s3://villain.network/
