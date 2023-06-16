@@ -1,0 +1,519 @@
+openapi: 3.0.2
+info:
+  title: certificate.stream
+  description: |
+    A super simple REST API for polling the [Certificate Transparency Logs](https://certificate.transparency.dev/).
+
+    Avoid the costly infrastructure and administrative overhead required for setting up a complex certificate monitoring platform,
+    and instead, focus on developing your own optimized domain monitoring workflows with the certificate.stream API! 
+    Effortlessly build applications or processes capable of reacting to domain names from the Certificate Transparency Logs in near real-time.
+
+    Feature Highlights:
+    - Fetch the latest certificates from any or all log operators such as Cloudflare, Google, or DigiCert
+    - Retrieve flattened, pre-parsed domain name records for domain monitoring applications
+    - Fetch any logged certificate or domain name by its “certificate.stream” ID
+
+    Check out the [Tutorials page](https://villain.network/about/tutorials/domain-monitoring-basics) for real-world examples.
+  version: 0.1.0
+servers:
+  - url: https://certificate.stream
+paths:
+  /certs/list:
+    get:
+      tags:
+        - Certificates
+      summary: Get Certs
+      description: |-
+        Retrieve the latest Certificates from the Certificate Transparency Logs.
+
+        If `start_from_id` is specified, only certificates appended to the log after the given id are returned. That is,
+        `start_from_id` can be used to continuously request the latest certificates from the Certificate Transparency Logs.
+        Refer to the ["Real-time Monitoring Job"](https://villain.network/about/tutorials/domain-monitoring-basics#real-time-monitoring) example for more details.
+        Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
+
+        If `date_and_hour` is specified, offset-based pagination is used to return all certificates logged within the given
+        date and hour. That is, responses will contain `count` and `offset` parameters that can be used to paginate through
+        certificates. Refer to the ["Hourly Batch Job"](https://villain.network/about/tutorials/domain-monitoring-basics#hourly-batch-job) example for more details.
+        Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
+
+        The `log_operator` parameter can be used to specify which Log Operator's (e.g. Google, Cloudflare, etc.) logs should
+        be included in the response. If this parameter is not specified, logs from all Log Operators in the "all log list"
+        are pooled and returned in order that they were received by certificate.stream's internal log streamer.
+      operationId: List Certificates
+      parameters:
+        - description: Total number of certificate logs to return.
+          required: false
+          schema:
+            title: Limit
+            exclusiveMaximum: 101
+            exclusiveMinimum: 0
+            type: integer
+            description: Total number of certificate logs to return.
+            default: 100
+          name: limit
+          in: query
+        - description: Exclude the first N certificate logs from the response.
+          required: false
+          schema:
+            title: Offset
+            exclusiveMaximum: 1000001
+            exclusiveMinimum: 0
+            type: integer
+            description: Exclude the first N certificate logs from the response.
+          name: offset
+          in: query
+        - description: Retrieve certificate logs starting with this ID and onwards.
+          required: false
+          schema:
+            title: Start From Id
+            type: string
+            description: Retrieve certificate logs starting with this ID and onwards.
+          name: start_from_id
+          in: query
+        - description: Retrieve certificate logs from the given date and hour batch.
+          required: false
+          schema:
+            title: Date And Hour
+            pattern: \d{4}-\d{2}-\d{2}-\d{2}
+            type: string
+            description: Retrieve certificate logs from the given date and hour batch.
+          name: date_and_hour
+          in: query
+        - description: Only include certificate logs from this Log Operator.
+          required: false
+          schema:
+            title: Log Operator
+            type: string
+            description: Only include certificate logs from this Log Operator.
+          name: log_operator
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificates'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /certs/{id}:
+    get:
+      tags:
+        - Certificates
+      summary: Get Cert By Unique Id
+      description: Retrieve the Certificate Log for the given ID.
+      operationId: Get Certificate
+      parameters:
+        - description: The certificate.stream ID.
+          required: true
+          schema:
+            title: Id
+            type: string
+            description: The certificate.stream ID.
+          name: id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogEntry'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /domains/list:
+    get:
+      tags:
+        - Domains
+      summary: Get Domains
+      description: |-
+        Retrieve the latest Domains from the Certificate Transparency Logs.
+
+        Unlike the "Certificate" endpoints, "Domain" endpoints return only the domain names extracted from the Certificate
+        Transparency Logs. This is beneficial for applications or consumers interested in building domain monitoring workflows.
+
+        If `start_from_id` is specified, only domain names appended to the log after the given id are returned. That is,
+        `start_from_id` can be used to continuously request the latest domain names from the Certificate Transparency Logs.
+        Refer to the ["Real-time Monitoring Job"](https://villain.network/tutorials) example for more details.
+        Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
+
+        If `date_and_hour` is specified, offset-based pagination is used to return all domain names logged within the given
+        date and hour. That is, responses will contain `count` and `offset` parameters that can be used to paginate through
+        domain names. Refer to the ["Hourly Batch Job"](https://villain.network/tutorials) example for more details.
+        Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
+
+        The `log_operator` parameter can be used to specify which Log Operator's (e.g. Google, Cloudflare, etc.) logs should
+        be included in the response. If this parameter is not specified, logs from all Log Operators in the "all log list"
+        are pooled and returned in order that they were received by certificate.stream's internal log streamer.
+      operationId: List Domain Names
+      parameters:
+        - description: Total number of records to be returned.
+          required: false
+          schema:
+            title: Limit
+            exclusiveMaximum: 3001
+            exclusiveMinimum: 0
+            type: integer
+            description: Total number of records to be returned.
+            default: 1000
+          name: limit
+          in: query
+        - description: Exclude the first N records from the response.
+          required: false
+          schema:
+            title: Offset
+            exclusiveMaximum: 1000001
+            type: integer
+            description: Exclude the first N records from the response.
+            gte: 0
+          name: offset
+          in: query
+        - description: Start with records that were added after the given ID.
+          required: false
+          schema:
+            title: Start From Id
+            type: string
+            description: Start with records that were added after the given ID.
+          name: start_from_id
+          in: query
+        - description: Retrieve certificate logs from the given date and hour batch.
+          required: false
+          schema:
+            title: Date And Hour
+            pattern: \d{4}-\d{2}-\d{2}-\d{2}
+            type: string
+            description: Retrieve certificate logs from the given date and hour batch.
+          name: date_and_hour
+          in: query
+        - description: Only include records from this Log Operator.
+          required: false
+          schema:
+            title: Log Operator
+            type: string
+            description: Only include records from this Log Operator.
+          name: log_operator
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domains'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /domains/{id}:
+    get:
+      tags:
+        - Domains
+      summary: Get Domain By Unique Id
+      description: Retrieve the Domain records for the given ID.
+      operationId: Get Domain Name
+      parameters:
+        - description: The certificate.stream ID.
+          required: true
+          schema:
+            title: Id
+            type: string
+            description: The certificate.stream ID.
+          name: id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Get Domain Name
+                type: array
+                items:
+                  $ref: '#/components/schemas/Domain'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /info/all_log_list:
+    get:
+      tags:
+        - Info
+      summary: Get All Log List
+      description: Retrieves the list of all known CT Logs for Google Chrome.
+      operationId: Get All Log List
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Get All Log List
+                type: object
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CertExtensions:
+      title: CertExtensions
+      type: object
+      properties:
+        basicContraints:
+          title: Basiccontraints
+          type: string
+        keyUsage:
+          title: Keyusage
+          type: string
+        authorityInfoAccess:
+          title: Authorityinfoaccess
+          type: string
+        authorityKeyIdentifier:
+          title: Authoritykeyidentifier
+          type: string
+        certificatePolicies:
+          title: Certificatepolicies
+          type: string
+        subjectKeyIdentifier:
+          title: Subjectkeyidentifier
+          type: string
+        subjectAltNames:
+          title: Subjectaltnames
+          type: string
+    CertSubject:
+      title: CertSubject
+      required:
+        - aggregated
+        - C
+        - ST
+        - L
+        - O
+        - OU
+        - CN
+      type: object
+      properties:
+        aggregated:
+          title: Aggregated
+          type: string
+        C:
+          title: C
+          type: string
+        ST:
+          title: St
+          type: string
+        L:
+          title: L
+          type: string
+        O:
+          title: O
+          type: string
+        OU:
+          title: Ou
+          type: string
+        CN:
+          title: Cn
+          type: string
+    Certificates:
+      title: Certificates
+      required:
+        - limit
+        - certs
+      type: object
+      properties:
+        limit:
+          title: Limit
+          type: integer
+        offset:
+          title: Offset
+          type: integer
+        count:
+          title: Count
+          type: integer
+        certs:
+          title: Certs
+          type: array
+          items:
+            $ref: '#/components/schemas/LogEntry'
+    Domain:
+      title: Domain
+      required:
+        - domain_name
+        - entry_type
+        - issued_at
+        - log_operator
+        - log_source
+        - log_index
+        - extracted_at
+        - id
+      type: object
+      properties:
+        domain_name:
+          title: Domain Name
+          type: string
+        entry_type:
+          title: Entry Type
+          type: string
+        issued_at:
+          title: Issued At
+          type: string
+          format: date-time
+        log_operator:
+          title: Log Operator
+          type: string
+        log_source:
+          title: Log Source
+          type: string
+        log_index:
+          title: Log Index
+          type: string
+        extracted_at:
+          title: Extracted At
+          type: integer
+        id:
+          title: Id
+          type: string
+    Domains:
+      title: Domains
+      required:
+        - limit
+        - domains
+      type: object
+      properties:
+        limit:
+          title: Limit
+          type: integer
+        offset:
+          title: Offset
+          type: integer
+        count:
+          title: Count
+          type: integer
+        domains:
+          title: Domains
+          type: array
+          items:
+            $ref: '#/components/schemas/Domain'
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    LogEntry:
+      title: LogEntry
+      required:
+        - id
+        - entry_type
+        - body
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        entry_type:
+          title: Entry Type
+          type: string
+        body:
+          $ref: '#/components/schemas/LogEntryBody'
+    LogEntryBody:
+      title: LogEntryBody
+      required:
+        - index
+        - cert_leaf
+        - cert_chain
+        - source
+      type: object
+      properties:
+        index:
+          title: Index
+          type: integer
+        cert_leaf:
+          $ref: '#/components/schemas/X509Certificate'
+        cert_chain:
+          title: Cert Chain
+          type: array
+          items:
+            $ref: '#/components/schemas/X509Certificate'
+        source:
+          $ref: '#/components/schemas/LogEntrySource'
+    LogEntrySource:
+      title: LogEntrySource
+      required:
+        - name
+        - url
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        url:
+          title: Url
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    X509Certificate:
+      title: X509Certificate
+      required:
+        - subject
+        - not_before
+        - not_after
+        - as_der
+      type: object
+      properties:
+        subject:
+          $ref: '#/components/schemas/CertSubject'
+        extensions:
+          $ref: '#/components/schemas/CertExtensions'
+        not_before:
+          title: Not Before
+          type: string
+          format: date-time
+        not_after:
+          title: Not After
+          type: string
+          format: date-time
+        as_der:
+          title: As Der
+          type: string
+        domains:
+          title: Domains
+          type: array
+          items:
+            type: string
+security:
+  - bearerAuth: [] 

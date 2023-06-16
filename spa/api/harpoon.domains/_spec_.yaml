@@ -1,0 +1,443 @@
+openapi: 3.0.1
+info:
+  title: harpoon.domains
+  description: |
+    Harpoon can monitor the internet for domain names that may be trying to spoof your organization or reputation. 
+
+    Simply add a domain name that you want monitored and harpoon will use similarity metrics such as [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
+    to compare domains found in the Certificate Transparency Logs to your registered domain. 
+    If any similarity thresholds are met or exceeded, Harpoon will send you an email with the information.
+
+    Feature Highlights:
+    - Support for monitoring similarity for up to 5 domain names per project
+    - Set a notification target to receive alerts (email) when a similar domain is found (HTTP and SMS target types coming soon!)
+    - Integrates with the swordphish.io API, to automatically scan suspicious domains in real-time
+  contact: {}
+  version: 0.1.0
+servers:
+- url: https://harpoon.domains/v1
+paths:
+  /domain/{id}:
+    get:
+      tags:
+      - Monitored Domains
+      summary: Get domain name
+      description: Get the monitored domain name with the given id.
+      parameters:
+      - name: id
+        in: path
+        description: Domain ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Domain'
+    put:
+      tags:
+      - Monitored Domains
+      summary: Update domain name
+      description: Update a monitored domain name in this project.
+      parameters:
+      - name: id
+        in: path
+        description: Domain ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated domain name.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddOrUpdateDomain'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+    delete:
+      tags:
+      - Monitored Domains
+      summary: Delete domain name
+      description: Delete a monitored domain name from this project.
+      parameters:
+      - name: id
+        in: path
+        description: Domain ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+  /domain/add:
+    post:
+      tags:
+      - Monitored Domains
+      summary: Add domain name
+      description: Add a new domain name to monitor.
+      requestBody:
+        description: Add domain name to monitor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddOrUpdateDomain'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+  /domain/list:
+    get:
+      tags:
+      - Monitored Domains
+      summary: List monitored domains
+      description: List the domain names being monitored under this project.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schemas.Domain'
+  /notification/{id}:
+    get:
+      tags:
+      - Notifications
+      summary: Get notification
+      description: Get the notification with the given id.
+      parameters:
+      - name: id
+        in: path
+        description: Notification ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Notification'
+    put:
+      tags:
+      - Notifications
+      summary: Update notification
+      description: Update the notification with the given id.
+      parameters:
+      - name: id
+        in: path
+        description: Notification ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Update notification.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateNotification'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+  /notification/list:
+    get:
+      tags:
+      - Notifications
+      summary: List notifications
+      description: List all the notifications under this project.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schemas.Notification'
+  /notification/target/{id}:
+    get:
+      tags:
+      - Notification-Targets
+      summary: Get notification target
+      description: Get the notification target with the given id.
+      parameters:
+      - name: id
+        in: path
+        description: Notification Target ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.NotificationTarget'
+    put:
+      tags:
+      - Notification-Targets
+      summary: Update notification target
+      description: Update the notification target with the given id.
+      parameters:
+      - name: id
+        in: path
+        description: Notification Target ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Update notification target.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddOrUpdateNotificationTarget'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+    delete:
+      tags:
+      - Notification-Targets
+      summary: Delete notification target
+      description: Delete the notification target with the given id from this project.
+      parameters:
+      - name: id
+        in: path
+        description: Notification ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+  /notification/target/add:
+    post:
+      tags:
+      - Notification-Targets
+      summary: Add notification target
+      description: Add a notification target to this project.
+      requestBody:
+        description: Add domain to monitor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddOrUpdateNotificationTarget'
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+  /notification/target/list:
+    get:
+      tags:
+      - Notification-Targets
+      summary: List notification targets
+      description: List all notification targets for this project.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schemas.NotificationTarget'
+components:
+  schemas:
+    schemas.AddOrUpdateDomain:
+      required:
+      - domain_name
+      - target_id
+      type: object
+      properties:
+        domain_name:
+          maxLength: 64
+          minLength: 8
+          type: string
+          example: example.net
+        target_id:
+          type: string
+          example: 5cd03ef1-afef-4245-b7a8-29d599790483
+    schemas.AddOrUpdateNotificationTarget:
+      required:
+      - is_active
+      - target_type
+      - target_value
+      type: object
+      properties:
+        is_active:
+          type: boolean
+          example: true
+        target_type:
+          type: string
+          example: email
+        target_value:
+          type: string
+          example: soc@organization.org
+    schemas.Domain:
+      required:
+      - domain_name
+      - target_id
+      type: object
+      properties:
+        created_on:
+          type: string
+          example: 2023-04-15T20:37:43Z
+        domain_name:
+          maxLength: 64
+          minLength: 8
+          type: string
+          example: example.com
+        id:
+          type: string
+          example: 94cb9f33-caaf-4690-9b24-d9e3510bb147
+        owner_sub:
+          type: string
+          example: 32e7a44e-7c76-4082-b672-7c3859ee26de
+        project_id:
+          type: string
+          example: 5cd03ef1-afef-4245-b7a8-29d599790483
+        target_id:
+          type: string
+          example: e140bcf6-c946-48e3-a335-24564c313b90
+        updated_on:
+          type: string
+          example: 2023-04-15T20:37:43Z
+    schemas.Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Some status message about what happened.
+        validation:
+          type: array
+          items:
+            $ref: '#/components/schemas/schemas.RequestBodyError'
+    schemas.Notification:
+      required:
+      - acknowledged
+      type: object
+      properties:
+        acknowledged:
+          type: boolean
+          example: true
+        certificate_url:
+          type: string
+          example: https://certificate.stream/ct/323032332d30342d31322d32323a626b756d687635776437377474687232
+        details:
+          type: string
+          example: The domain, examples.net, was found!
+        id:
+          type: string
+          example: 94cb9f33-caaf-4690-9b24-d9e3510bb147
+        log_operator:
+          type: string
+          example: Google
+        log_raw_entry_url:
+          type: string
+          example: https://ct.googleapis.com/logs/argon2022/ct/v1/get-entries?start=1&end=1
+        log_source:
+          type: string
+          example: argon2022
+        monitored_domain:
+          $ref: '#/components/schemas/schemas.Domain'
+        notification_target:
+          $ref: '#/components/schemas/schemas.NotificationTarget'
+        owner_sub:
+          type: string
+          example: 32e7a44e-7c76-4082-b672-7c3859ee26de
+        project_id:
+          type: string
+          example: e0d3a19c-ffe2-4bac-9a99-20b19426efc7
+        similar_domain_name:
+          type: string
+          example: examples.net
+        timestamp:
+          type: integer
+          example: 1351700038292
+    schemas.NotificationTarget:
+      required:
+      - is_active
+      - target_type
+      - target_value
+      type: object
+      properties:
+        id:
+          type: string
+          example: 94cb9f33-caaf-4690-9b24-d9e3510bb147
+        is_active:
+          type: boolean
+          example: true
+        is_verified:
+          type: boolean
+          example: true
+        owner_sub:
+          type: string
+          example: 32e7a44e-7c76-4082-b672-7c3859ee26de
+        project_id:
+          type: string
+          example: e0d3a19c-ffe2-4bac-9a99-20b19426efc7
+        target_type:
+          type: string
+          example: email
+        target_value:
+          type: string
+          example: soc@organization.org
+    schemas.RequestBodyError:
+      type: object
+      properties:
+        field:
+          type: string
+          example: domain_name
+        info:
+          type: string
+          example: invalid fully qualified domain name.
+    schemas.UpdateNotification:
+      required:
+      - acknowledged
+      type: object
+      properties:
+        acknowledged:
+          type: boolean
+          example: true

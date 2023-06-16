@@ -1,0 +1,127 @@
+openapi: "3.0.1"
+info:
+  title: "Authentication"
+  description: |
+    Authentication is performed via the OAuth2 client credentials flow.
+
+      > The OAuth 2.0 client credentials grant flow permits a web service (confidential client) to use its own credentials, 
+      instead of impersonating a user, to authenticate when calling another web service. This type is commonly used for 
+      server-to-server interactions that must run in the background, without immediate interaction with a user, and is 
+      often referred to as daemons or service accounts. — [Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow)
+
+    Access is "project" based and centrally managed through Villain's identity provider server. This means you only need to
+    create one account to access all three Toolkit API services. Before you can begin using these APIs, you must <a href="https://auth.villain.network/signup?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback">sign up</a>, verify your email address, and create a "project" which will have a unique `client_id` 
+    and `client_secret`. These two credentials are the first step for gaining programmatic access to the Toolkit API 
+    services through the OAuth2 client credentials flow. 
+    
+    Don't worry — All of the API services are currently <u>free-tier</u> by default, so getting started is easy and painless.
+
+    ## Access Tokens
+
+    "Access tokens" are how your applications or scripts will be authorized to invoke any of the APIs. 
+
+    ### Obtaining an Access Token
+
+    To request an access token, start by submitting your project's `client_id` and `client_secret` to the `/oauth2/token` 
+    endpoint with the "client_credentials" `grant_type`. The following cURL command demonstrates the request syntax.
+
+    ```
+    curl -X POST https://api.villain.network/oauth2/token \
+        -H "Content-Type: application/x-www-form-urlencoded" \
+        -d "grant_type=client_credentials&client_id=xxxxxx&client_secret=xxxxxx"
+    ```
+
+    If both the client id and secret are valid, a response payload containing the token will be returned along 
+    with some additional information.
+
+    ```
+    {
+        "access_token": "xxxxxx",
+        "expires_in": 3600, 
+        "token_type": "Bearer"
+    }
+    ```
+
+    ### Using an Access token
+
+    After obtaining an access token, your application should pass the token in all subsequent requests via the "Authorization" header.
+
+    ```
+    curl -L 'https://certificate.stream/v1/domains/list' \
+        -H 'Accept: application/json' \
+        -H 'Authorization: Bearer <your_access_token>'
+    ```
+
+    Access tokens have a max-age of 60 minutes. If the runtime of your program or application is expect to take longer than 60 minutes,
+    you should write logic to handle requesting a new token after this period.
+
+    :::note
+    Your application or program can use API service oauth2 endpoints interchangeably.
+    For example, the following are all valid options for requesting access tokens, regardless of which service(s) your application is using:
+
+    - https://villain.network/oauth2/token
+    - https://certificate.stream/oauth2/token
+    - https://harpoon.domains/oauth2/token
+    - https://swordphish.io/oauth2/token
+
+    This only applies to `/oauth2/*` endpoints.
+    :::
+  version: "0.1.0"
+servers:
+- url: "https://api.villain.network/"
+  variables:
+    basePath:
+      default: "dev"
+paths:
+  /oauth2/token:
+    post:
+      tags:
+        - Access Tokens
+      summary: Obtain an Access Token
+      description: Obtain an Access Token via the OAuth2.0 Client Credentials Flow.
+      operationId: get_token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                grant_type:
+                  type: string
+              example:
+                client_id: <your_client_id>
+                client_secret: <your_client_secret>
+                grant_type: client_credentials
+              required:
+                - client_id
+                - client_secret
+                - grant_type
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+components:
+  schemas:
+    schemas.Message:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: "JWT for API authorization."
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        expires:
+          type: integer
+          description: "Expiration of the token in seconds."
+          example: 3600
+        token_type:
+          type: string
+          description: "How this token should be used."
+          example: "Bearer"
+
