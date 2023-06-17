@@ -30,7 +30,7 @@ const ProjectsList = [
   },
   {
     title: 'Webpage Scraping',
-    png: require('@site/static/img/swordfish6.png').default,
+    png: require('@site/static/img/swordfish.png').default,
     description: (
       <>
       Instantly scrape any suspicious URLs with <a href='/'>swordphish.io</a> — A web scraper with phish detection and AI search capabilities.
