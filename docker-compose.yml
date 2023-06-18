@@ -11,6 +11,8 @@ services:
       dockerfile: Dockerfile
     container_name: villain-spa
     hostname: villain-spa
+    environment:
+      - GIT_REF_HASH=local
     ports:
       - 3000:3000
       - 80:3000
