@@ -22,7 +22,7 @@ paths:
     get:
       tags:
         - Certificates
-      summary: Get Certs
+      summary: Get certificates
       description: |-
         Retrieve the latest Certificates from the Certificate Transparency Logs.
 
@@ -48,7 +48,6 @@ paths:
             exclusiveMaximum: 101
             exclusiveMinimum: 0
             type: integer
-            description: Total number of certificate logs to return.
             default: 100
           name: limit
           in: query
@@ -59,7 +58,6 @@ paths:
             exclusiveMaximum: 1000001
             exclusiveMinimum: 0
             type: integer
-            description: Exclude the first N certificate logs from the response.
           name: offset
           in: query
         - description: Retrieve certificate logs starting with this ID and onwards.
@@ -67,7 +65,6 @@ paths:
           schema:
             title: Start From Id
             type: string
-            description: Retrieve certificate logs starting with this ID and onwards.
           name: start_from_id
           in: query
         - description: Retrieve certificate logs from the given date and hour batch.
@@ -76,7 +73,6 @@ paths:
             title: Date And Hour
             pattern: \d{4}-\d{2}-\d{2}-\d{2}
             type: string
-            description: Retrieve certificate logs from the given date and hour batch.
           name: date_and_hour
           in: query
         - description: Only include certificate logs from this Log Operator.
@@ -84,7 +80,6 @@ paths:
           schema:
             title: Log Operator
             type: string
-            description: Only include certificate logs from this Log Operator.
           name: log_operator
           in: query
       responses:
@@ -104,7 +99,7 @@ paths:
     get:
       tags:
         - Certificates
-      summary: Get Cert By Unique Id
+      summary: Get cert by unique id
       description: Retrieve the Certificate Log for the given ID.
       operationId: Get Certificate
       parameters:
@@ -113,7 +108,6 @@ paths:
           schema:
             title: Id
             type: string
-            description: The certificate.stream ID.
           name: id
           in: path
       responses:
@@ -133,7 +127,7 @@ paths:
     get:
       tags:
         - Domains
-      summary: Get Domains
+      summary: Get domains
       description: |-
         Retrieve the latest Domains from the Certificate Transparency Logs.
 
@@ -162,7 +156,6 @@ paths:
             exclusiveMaximum: 3001
             exclusiveMinimum: 0
             type: integer
-            description: Total number of records to be returned.
             default: 1000
           name: limit
           in: query
@@ -172,7 +165,6 @@ paths:
             title: Offset
             exclusiveMaximum: 1000001
             type: integer
-            description: Exclude the first N records from the response.
             gte: 0
           name: offset
           in: query
@@ -181,7 +173,6 @@ paths:
           schema:
             title: Start From Id
             type: string
-            description: Start with records that were added after the given ID.
           name: start_from_id
           in: query
         - description: Retrieve certificate logs from the given date and hour batch.
@@ -190,7 +181,6 @@ paths:
             title: Date And Hour
             pattern: \d{4}-\d{2}-\d{2}-\d{2}
             type: string
-            description: Retrieve certificate logs from the given date and hour batch.
           name: date_and_hour
           in: query
         - description: Only include records from this Log Operator.
@@ -198,7 +188,6 @@ paths:
           schema:
             title: Log Operator
             type: string
-            description: Only include records from this Log Operator.
           name: log_operator
           in: query
       responses:
@@ -218,7 +207,7 @@ paths:
     get:
       tags:
         - Domains
-      summary: Get Domain By Unique Id
+      summary: Get domain by unique id
       description: Retrieve the Domain records for the given ID.
       operationId: Get Domain Name
       parameters:
@@ -227,7 +216,6 @@ paths:
           schema:
             title: Id
             type: string
-            description: The certificate.stream ID.
           name: id
           in: path
       responses:
@@ -250,7 +238,7 @@ paths:
     get:
       tags:
         - Info
-      summary: Get All Log List
+      summary: Get all log list
       description: Retrieves the list of all known CT Logs for Google Chrome.
       operationId: Get All Log List
       responses:

@@ -6,8 +6,8 @@ info:
     <p>Scan any suspicious or parked domains in near-real time with the Swordphish API.</p>
     
     Feature Highlights:
-    - The Swordphish machine learning model assigns a <i>phish score</i> to each submission in order to help minimize false positives
-    - Automatically identifies related scans based on screenshots with Swordphish's AI enhanced search capability
+    - The Swordphish ML model assigns a <i>phish score</i> to each submission to help minimize false positives
+    - Automatically identify related scans by screenshot with Swordphish's AI enhanced search capability
     - Responses include intelligence data such as DNS, WHOIS, TLS, HTML, and HTTP Logs that your applications or workflows can leverage for custom post-scan analysis
   version: 0.2.0
 servers:
@@ -17,7 +17,7 @@ paths:
     post:
       tags:
         - Scanner
-      summary: Do Scan
+      summary: Do scan
       description: |-
         Submits a scan to swordphish.
 
@@ -48,7 +48,7 @@ paths:
     get:
       tags:
         - Scanner
-      summary: List Scans
+      summary: Get scans
       description: |-
         Lists the scans submitted by your project.
 
@@ -94,7 +94,7 @@ paths:
     get:
       tags:
         - Scanner
-      summary: Get Scan Presigned Url
+      summary: Get scan presigned url
       description: |-
         Retrieves the pre-signed URL to the scan for the given ID.
 
@@ -136,7 +136,7 @@ paths:
     get:
       tags:
         - Scanner
-      summary: Get Scan
+      summary: Get scan
       description: Retrieves the full scan response for the given ID.
       operationId: Get Scan
       parameters:
@@ -164,7 +164,7 @@ paths:
     get:
       tags:
         - Info
-      summary: Get Queue Length
+      summary: Get queue length
       description: Check how many Scans are currently in the Queue.
       operationId: Check Queue
       responses:
