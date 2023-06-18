@@ -1,51 +1,42 @@
 ---
 sidebar_position: 1
 ---
-
 # About
 
-The Villain Toolkit is a collection of APIs for creating or enhancing domain monitoring solutions. 
-Unlike other cybersecurity solutions, Villain's mission is to empower cybersecurity teams with the tools to build their own threat intelligence workflows that ...
-- Integrate easily into existing infrastructure, technology stacks, and processes or pipelines
-- Allow teams to sharpen their technical or engineering skills without having to learn a new set of tools
-- Close common domain monitoring gaps for a fraction of the price of traditional solutions
-
 ## The Problem
+
  > "In 2021, the total number of phishing and counterfeit pages detected increased 1.5x over 2020 to a total of more than 10.5 million — and it continues to grow..." — [Security Boulevard](https://securityboulevard.com/2022/03/what-is-domain-monitoring-and-why-you-need-it/)
 
- > "74% of large enterprises regularly ignore security incidents due to low prioritization..." — [SecurityWeek](https://www.securityweek.com/incident-response-becoming-more-difficult-survey)
+In today's digital world, an organization's brand identity is arguably one of its most important assets. While organizations work incredibly hard to build their brand, deliver value, and earn the trust of their customers, it is often far too easy for cyber criminals to take advantage of branding for malicious purposes. For instance in May of 2021, over [6000 Coinbase customers lost money after falling victim to a phishing campaign designed to steal customer login credentials](https://www.fool.com/the-ascent/cryptocurrency/articles/thousands-of-coinbase-users-hit-by-phishing-attack-heres-how-to-protect-yourself/). Like most phishing attacks, the criminals were able to impersonate Coinbase customer service using company branded emails; hijacking the trust that Coinbase had garnered and using it to persuade victims to navigate to a counterfeit site and divulge login information. 
 
- > "53% of spam and phishing sites are discovered by an external source..." — [Mandiant Security](https://www.mandiant.com/resources/security-effectiveness-2020-deep-dive-into-cyber-security-reality)
-
-
-
-Trust is Domain Monitoring has become a priority for 
-
-
-## What is Villain
-
-The Villain Toolkit consists of <u>three</u> complimentary API services.
-
-Together these APIs enable cybersecurity teams to create robust, end-to-end domain monitoring solutions. When used together these services are able to create a robust, end-to-end anti-phishing and domain monitoring workflows. However, each of these services is capable of acting entirely independent of one another. This allows the developer the freedom to pick and choose the API(s) that best fit their particular use-case without the need to completely redesign existing workflows.
-
-The functionality for each API service is further examined in our Documentation. Additionally, the Tutorials section contains a "mash-ups" of these APIs which demonstrates how to build an end-to-end, production-ready domain monitoring workflow.
-
-![Drag Racing](services-overview.png)
-
-
-| Tool      | Description |
-| --------------------------------- | --------------------------------- |
-| certificate.stream        | REST API for <u>polling</u> the Certificate Transparency Logs. There's no need to set up complex log streaming infrastructure, simply poll the certificate.stream API to get the latest certificates from any or all log operators such as Cloudflare, Google, or DigiCert.        |
-| harpoon.domains           | REST API for <u>monitoring</u> the Certificate Transparency Logs. Simply, add a domain name that you want monitored and harpoon will use similarity metrics such as [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) to compare domains from the logs to your domain. If any similarity thresholds are met or exceeded, Harpoon will notify you.       |
-| swordphish.io             | REST API for scraping and extracting website information such as HTML, HAR, WHOIS, DNS, TLS certificates, and Screenshots. Swordphish can be hooked into Harpoon's monitoring workflow to immediately scrape any suspicious domains and share the results with you in real-time.    |
+Although not applicable to Coinbase, financial institutions in the United States are legally obligated to reverse any unauthorized transactions that were made as a result of customer's account being compromised by cyber criminals as long as the victim reports the fraud within a reasonable time frame. [With an average of $136 lost per phishing attack, cyber criminals stole over $44 million dollars through phishing attacks in 2021 alone](https://aag-it.com/the-latest-phishing-statistics/). When you also consider that many financial institutions who have had their brands or likeness used in phishing emails or fictitious websites experience decreases in online account openings, this problem is not only damaging to reputation but also earnings. 
 
 ## Why it matters
 
-With the number of cyber attacks only continuing to grow, even the most highly skilled Security Operations Centers are finding it increasingly difficult to stay on top of routine tasks. The need for cutting-edge, automated solutions within Information Security workflows has become critical to effectively managing daily responsibilities. 
+> "53% of phishing sites are discovered by an external source..." — [Mandiant Security](https://www.mandiant.com/resources/reports/mandiant-security-effectiveness-report-deep-dive-cyber-reality)
 
-For example, your team may already have a process inplace for web-scraping suspicious or parked domain names, but may still have a gap around auditing the certificate transparency logs to find such domains. In this case, the certificate.stream and harpoon.domains APIs could be leveraged to perform the log monitoring and alerting without requiring the solution to also incorporate the swordphish.io API.
+With the growing importance of maintaining brand credibility, an organization's responsibility to actively monitor threats is becoming one of the top priorities for their cybersecurity department. However with the number of counterfeit pages and phishing campaigns only increasing, even the most highly skilled cybersecurity teams are finding it difficult to balance daily responsibilities with detecting these external threats.
 
-Swordphish combines years of Cybersecurity domain expertise with AI and ML tools. The result is an easy-to-use REST API capable of tackling common phishing and domain spoofing threats. Security Operations Centers can enhance or completely automate portions of their threat monitoring workflows by leveraging the Swordphish API to extract data about suspicious domains targeting their organizations. Moreover, the data captured from these domains can be used by Threat Hunters to better understand attackers' methodologies, prevent future threats, and most importantly, safeguard the business' reputation.
+In order to stay ahead of such threats, many organizations implement domain monitoring solutions that go above and beyond monitoring their own digital assets. For example, [typosquatting](https://en.wikipedia.org/wiki/Typosquatting) defence is now a common aspect of many cybersecurity strategies.
 
+> "Domain monitoring entails much more than keeping an eye on registration expiry dates for the domains in your possession. Domain protection requires a domain monitoring solution that looks outside to ensure the parts you don’t use aren’t being used against you." — [Security Boulevard](https://securityboulevard.com/2022/03/what-is-domain-monitoring-and-why-you-need-it/)
 
-Thanks for checking out Villain!
+Unfortunately even with a clear strategic goal in mind, architecting the right solution to protect an organization's reputation can still prove to be a challenging task. Due to time, budget, or technical constraints, many organizations can end up selecting the wrong tool, implementing the right tool but in the wrong way, or foregoing any sort of technical solution in favor of simple manual processes.
+
+## What is Villain
+
+The Villain Toolkit consists of <u>three</u> complimentary API services for creating or enhancing domain monitoring solutions. The toolkit condenses years of cybersecurity domain expertise into a practical set of API's designed for any individual or organization to quickly and easily integrate into cybersecurity solutions that can protect an organization's reputation. Unlike traditional cybersecurity vendors, Villain's mission is to empower cybersecurity teams with the tools to build their own threat intelligence workflows that ...
+- Integrate into existing organization-specific processes, technology stacks, and infrastructure
+- Allow teams to sharpen technical and engineering skills without the need to learn one-off tools
+- Close common domain monitoring gaps for a fraction of the price of traditional solutions
+
+Together Villain's API services enable cybersecurity teams to create robust, end-to-end domain monitoring solutions. However, each of these services is capable of acting entirely independent of one another. This allows solution architects the freedom to pick and choose the APIs that best fit their particular use-case without the need to completely abandon or redesign existing workflows. 
+
+The functionality of each API service is further examined in our [Documentation](https://villain.network/docs). Additionally, the [Tutorials](https://villain.network/about/tutorials/intro) section contains a number of example "mash-ups" of these APIs which demonstrate how to build both simple and complex end-to-end, production-ready solutions.
+
+![Services](services-overview.png)
+
+Thanks for checking out the Villain Toolkit! If you have any questions, please reach out.
+
+— The Team at Villain
+(support@villain.network)

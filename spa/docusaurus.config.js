@@ -29,7 +29,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl:
-            "https://github.com/cyber-villains/villaindotnetwork",
+            "https://github.com/cyber-villains/villain.network/tree/main/spa",
         },
         blog: false,
         theme: {
@@ -54,6 +54,12 @@ const config = {
         routeBasePath: "docs",
       },
     ],
+    [
+      "docusaurus2-dotenv",
+      {
+        systemvars: true,
+      },
+    ]
   ],
 
   themeConfig:
@@ -91,7 +97,7 @@ const config = {
       },
       footer: {
         style: "dark",
-        copyright: `${process.env.GIT_SHORT_HASH} © ${new Date().getFullYear()} Villain LLC`,
+        copyright: `${process.env.GIT_REF_HASH} © ${new Date().getFullYear()} Villain LLC`,
       },
       prism: {
         theme: lightCodeTheme,
