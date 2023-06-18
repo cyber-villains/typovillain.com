@@ -285,7 +285,7 @@ export default function Profile() {
                                 <ul style={{listStyle: 'none'}} className='pl-0'>
                                     <li>{ user !== null ? user.username : "..."}</li>
                                     <li>{ user !== null ? user.email : "..."}</li>
-                                    <li><span className="badge badge--secondary">FREE TIER</span></li>
+                                    <li><span className="mt-5 badge badge--secondary">FREE TIER</span></li>
                                 </ul>
                             </div>
                         </div>

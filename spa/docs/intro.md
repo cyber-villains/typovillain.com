@@ -32,7 +32,7 @@ The Villain Toolkit consists of <u>three</u> complimentary API services for crea
 
 Together Villain's API services enable cybersecurity teams to create robust, end-to-end domain monitoring solutions. However, each of these services is capable of acting entirely independent of one another. This allows solution architects the freedom to pick and choose the APIs that best fit their particular use-case without the need to completely abandon or redesign existing workflows. 
 
-The functionality of each API service is further examined in our [Documentation](https://villain.network/docs). Additionally, the [Tutorials](https://villain.network/about/tutorials/intro) section contains a number of example "mash-ups" of these APIs which demonstrate how to build both simple and complex end-to-end, production-ready solutions.
+The functionality of each API service is further examined in our [Documentation](/docs). Additionally, the [Tutorials](/about/tutorials/intro) section contains a number of example "mash-ups" of these APIs which demonstrate how to build both simple and complex end-to-end, production-ready solutions.
 
 ![Services](services-overview.png)
 

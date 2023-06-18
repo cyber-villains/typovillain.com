@@ -13,7 +13,7 @@ info:
     - Retrieve flattened, pre-parsed domain name records for domain monitoring applications
     - Fetch any logged certificate or domain name by its “certificate.stream” ID
 
-    Check out the [Tutorials page](https://villain.network/about/tutorials/domain-monitoring-basics) for real-world examples.
+    Check out the [Tutorials page](/about/tutorials/domain-monitoring-basics) for real-world examples.
   version: 0.1.0
 servers:
   - url: https://certificate.stream
@@ -28,12 +28,12 @@ paths:
 
         If `start_from_id` is specified, only certificates appended to the log after the given id are returned. That is,
         `start_from_id` can be used to continuously request the latest certificates from the Certificate Transparency Logs.
-        Refer to the ["Real-time Monitoring Job"](https://villain.network/about/tutorials/domain-monitoring-basics#real-time-monitoring) example for more details.
+        Refer to the ["Real-time Monitoring Job"](/about/tutorials/domain-monitoring-basics#real-time-monitoring) example for more details.
         Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
 
         If `date_and_hour` is specified, offset-based pagination is used to return all certificates logged within the given
         date and hour. That is, responses will contain `count` and `offset` parameters that can be used to paginate through
-        certificates. Refer to the ["Hourly Batch Job"](https://villain.network/about/tutorials/domain-monitoring-basics#hourly-batch-job) example for more details.
+        certificates. Refer to the ["Hourly Batch Job"](/about/tutorials/domain-monitoring-basics#hourly-batch-job) example for more details.
         Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
 
         The `log_operator` parameter can be used to specify which Log Operator's (e.g. Google, Cloudflare, etc.) logs should
@@ -136,12 +136,12 @@ paths:
 
         If `start_from_id` is specified, only domain names appended to the log after the given id are returned. That is,
         `start_from_id` can be used to continuously request the latest domain names from the Certificate Transparency Logs.
-        Refer to the ["Real-time Monitoring Job"](https://villain.network/tutorials) example for more details.
+        Refer to the ["Real-time Monitoring Job"](/about/tutorials/domain-monitoring-basics#real-time-monitoring) example for more details.
         Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
 
         If `date_and_hour` is specified, offset-based pagination is used to return all domain names logged within the given
         date and hour. That is, responses will contain `count` and `offset` parameters that can be used to paginate through
-        domain names. Refer to the ["Hourly Batch Job"](https://villain.network/tutorials) example for more details.
+        domain names. Refer to the ["Hourly Batch Job"](/about/tutorials/domain-monitoring-basics#hourly-batch-job) example for more details.
         Note: `start_from_id` and `date_and_hour` are mutually exclusive arguments.
 
         The `log_operator` parameter can be used to specify which Log Operator's (e.g. Google, Cloudflare, etc.) logs should
