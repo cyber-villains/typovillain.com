@@ -177,12 +177,22 @@ def monitor_continuously(domain_name: str) -> None:
     token = get_token(client_id, client_secret)
     # set start id to null, so we begin with the latest domains
     start_id = None
+    # run forever
     while True:
-        # update start_id to request the latest domains
-        start_id = monitor_domains(domain_name, token=token, start_from_id=start_id)
-        # pause for a second to avoid rate-limit errors
-        logger.info("Waiting 1 second(s) before fetching next batch.")
-        time.sleep(1.0)
+        try:
+            # update start_id to request the latest domains
+            start_id = monitor_domains(domain_name, token=token, start_from_id=start_id)
+            # pause for a second to avoid rate-limit errors
+            logger.info("Waiting 1 second(s) before fetching next batch.")
+            time.sleep(1.0)
+
+        except requests.exceptions.HTTPError as e:
+            # catch expired token errors
+            if e.response.status_code in [401, 403]:
+                # get a new token and retry
+                token = get_token(client_id, client_secret)
+            else:
+                raise e
 ```
 
 In this case, we're not concerned with pulling the data for a particular hour, but instead want to continously pull the latest domains as they are recorded by certificate.stream's log monitor. This is achieved via the `start_from_id` parameter. This parameter controls where the internal "query" for domains from the certificate transparency log will start, and so, the code will update this parameter after each consecutive call. You'll notice that there is an "if" check, `if len(domains_response["domains"]) == 0:`, which is determining whether there were any "new" domains from the previous call. Because this method is "near real-time" (truthfully, things are happening in ~30 second microbatches behind the scenes), there are brief periods where there may be no "new" domains recorded. In these cases, we just return the same `start_from_id`, wait a second, and retry the same API call.
@@ -221,32 +231,7 @@ def monitor_domains(domain_name: str, token: str, start_from_id: str = None) -> 
     return next_start_id
 ```
 
-Besides the `start_from_id` difference, the other area where this code differs is with authentication. Because this job has an indefinite runtime, the initial access token will eventually expire and cause "Access Denied" exceptions. To remedy thi situation,
-the `monitor_domains` function is wrapped in the decorator, `retry_auth_failures`. Decorators - or closures as they're called in different programming languages - are a pythonic way to wrap the execution of a function in another function. In this case, the `retry_auth_failures` will "catch" any Access Denied exceptions, retrieve a fresh access token, and retry the function.
-
-```python title="domain-monitoring-basics/real-time-job/monitor.py
-def retry_auth_failures():
-    def fn(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            try:
-                result = func(*args, **kwargs)
-                return result
-            except requests.exceptions.HTTPError as e:
-                # catch expired token errors
-                if e.response.status_code in [401, 403]:
-                    # get a new token and retry
-                    token = get_token(client_id, client_secret)
-                    kwargs["token"] = token
-                    return func(*args, **kwargs)
-                else:
-                    raise e
-
-        return wrapper
-
-    return fn
-```
-... And that's pretty much the big differences between these two methods!
+Finally besides the `start_from_id` parameter, the other area where this code differs is with authentication. Because this job has an indefinite runtime, the initial access token will eventually expire and cause "Access Denied" exceptions. To remedy this situation, the code within the `while` loop is wrapped in a try/except block, which will request another valid token.
 
 ### A Real Continuous Run
 

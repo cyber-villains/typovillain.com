@@ -10,7 +10,7 @@ Welcome to Villain's Tutorials Page.
 
 A couple things before getting started ...
 
-If you haven't already, <a href="https://auth.villain.network/signup?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback">sign up</a>, confirm your email address, and create a "Project" so that you and your scripts can [Authenticate](/docs/introduction) with the APIs.
+If you haven't already, <a href="https://auth.villain.network/signup?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback">sign up</a>, confirm your email address, and create a "Project" so that your applications or scripts can [authenticate](/docs/introduction) and use Villain's API services.
 
 Many of these examples use Docker to maintain a consistent, self-contained build environment. Although not a requirement, it is encouraged to use Docker or another container management tool such as Podman for running these examples.
 

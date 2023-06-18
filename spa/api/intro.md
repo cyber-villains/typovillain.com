@@ -21,13 +21,13 @@ All of Villain's API services have <u>free tier support</u>, so getting started 
 
 ## Audience
 
-This interactive API documentation is intended for software developers or cybersecurity engineers with basic to intermediate understandings of APIs. For managers who are interested in business-value related content, our [About page](https://villain.network/about/intro) contains information about Villain, domain monitoring, and end-to-end solutions highlighting <u>What</u> the Villain Toolkit can do rather than the technical aspects around <u>How</u>.
+This interactive API documentation is intended for software developers or cybersecurity engineers with basic to intermediate understandings of APIs. For managers who are interested in business-value related content, our [About page](/about/intro) contains information about Villain, domain monitoring, and end-to-end solutions highlighting <u>What</u> the Villain Toolkit can do rather than the technical aspects around <u>How</u>.
 
 ## Examples
 
 > "I hear and I forget; I see and I remember; I do and I learn." — [a great quote with no clear origin](https://english.stackexchange.com/questions/226886/origin-of-i-hear-and-i-forget-i-see-and-i-remember-i-do-and-i-understand)
 
-If you're the type of learner who prefers to jump into the deep end, there are plenty of examples on our [Tutorials Page](https://villain.network/about/tutorials/intro). In fact, the tutorials page may be the best place to get a high-level understanding of Villain API services and how each could fit into your own custom solutions. Then when you're ready to get into the specifics of each API, this set of documentation will be the place to do so.
+If you're the type of learner who prefers to jump into the deep end, there are plenty of examples on our [Tutorials Page](/about/tutorials/intro). In fact, the tutorials page may be the best place to get a high-level understanding of Villain API services and how each could fit into your own custom solutions. Then when you're ready to get into the specifics of each API, this set of documentation will be the place to do so.
 
 
 <!-- 
