@@ -9,7 +9,9 @@ sidebar_position: 1
 
 In today's digital world, an organization's brand identity is arguably one of its most important assets. While organizations work incredibly hard to build their brand, deliver value, and earn the trust of their customers, it is often far too easy for cyber criminals to take advantage of branding for malicious purposes. For instance in May of 2021, over [6000 Coinbase customers lost money after falling victim to a phishing campaign designed to steal customer login credentials](https://www.fool.com/the-ascent/cryptocurrency/articles/thousands-of-coinbase-users-hit-by-phishing-attack-heres-how-to-protect-yourself/). Like most phishing attacks, the criminals were able to impersonate Coinbase customer service using company branded emails; hijacking the trust that Coinbase had garnered and using it to persuade victims to navigate to a counterfeit site and divulge login information. 
 
-Although not applicable to Coinbase, financial institutions in the United States are legally obligated to reverse any unauthorized transactions that were made as a result of customer's account being compromised by cyber criminals as long as the victim reports the fraud within a reasonable time frame. [With an average of $136 lost per phishing attack, cyber criminals stole over $44 million dollars through phishing attacks in 2021 alone](https://aag-it.com/the-latest-phishing-statistics/). When you also consider that many financial institutions who have had their brands or likeness used in phishing emails or fictitious websites experience decreases in online account openings, this problem is not only damaging to reputation but also earnings. 
+> "70% of Financial Institutions lost over $500K to fraud in 2022 ..." — [CFO.com](https://www.cfo.com/technology/cyber-security-technology/2023/01/cybersecurity-fraud-lending-breach-recovery/)
+
+Although not applicable to Coinbase, financial institutions in the United States are legally obligated to reverse any unauthorized transactions that were made as a result of the customer's account being compromised by cyber criminals as long as the victim reports the fraud within a reasonable time frame. [With an average of $136 lost per phishing attack, cyber criminals stole over $44 million dollars through phishing attacks in 2021 alone](https://aag-it.com/the-latest-phishing-statistics/). When you also consider that many financial institutions who have had their brands or likeness used in phishing emails or fictitious websites experience decreases in online account openings, this problem is not only damaging to reputation but also earnings. 
 
 ## Why it matters
 
@@ -39,4 +41,4 @@ The functionality of each API service is further examined in our [Documentation]
 Thanks for checking out the Villain Toolkit! If you have any questions, please reach out.
 
 — The Team at Villain
-(support@villain.network)
+(info@villain.network)

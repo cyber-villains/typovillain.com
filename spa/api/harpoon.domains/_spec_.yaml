@@ -15,7 +15,7 @@ info:
   contact: {}
   version: 0.1.0
 servers:
-- url: https://harpoon.domains/
+- url: https://harpoon.domains/v1/
 paths:
   /domain/{id}:
     get:
@@ -284,6 +284,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/schemas.NotificationTarget'
 components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     schemas.AddOrUpdateDomain:
       required:
@@ -441,3 +446,5 @@ components:
         acknowledged:
           type: boolean
           example: true
+security:
+  - bearerAuth: []
