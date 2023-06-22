@@ -64,7 +64,7 @@ paths:
             exclusiveMaximum: 25
             exclusiveMinimum: 0
             type: integer
-            default: 10
+            example: 10
           name: num
           in: query
         - description: Start querying from this ID.
@@ -116,7 +116,7 @@ paths:
             exclusiveMaximum: 900
             exclusiveMinimum: 0
             type: integer
-            default: 300
+            example: 300
           name: expire_after
           in: query
       responses:
@@ -160,21 +160,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /info/queue:
-    get:
-      tags:
-        - Info
-      summary: Get queue length
-      description: Check how many Scans are currently in the Queue.
-      operationId: Check Queue
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                title: Response Check Queue
-                type: object
+  # /info/queue:
+  #   get:
+  #     tags:
+  #       - Info
+  #     summary: Get queue length
+  #     description: Check how many Scans are currently in the Queue.
+  #     operationId: Check Queue
+  #     responses:
+  #       '200':
+  #         description: Successful Response
+  #         content:
+  #           application/json:
+  #             schema:
+  #               title: Response Check Queue
+  #               type: object
 components:
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
@@ -196,27 +196,27 @@ components:
         page_timeout:
           title: Page Timeout
           type: integer
-          default: 120
+          example: 120
         page_wait:
           title: Page Wait
           type: number
-          default: 2.5
+          example: 2.5
         user_agent:
           title: User Agent
           type: string
-          default: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36
+          example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36
         browser:
           allOf:
             - $ref: '#/components/schemas/Browser'
-          default: CHROME
+          example: CHROME
         capture_screenshot:
           title: Capture Screenshot
           type: boolean
-          default: true
+          example: true
         capture_scroll:
           title: Capture Scroll
           type: boolean
-          default: true
+          example: true
     BrowserOutput:
       title: BrowserOutput
       required:
@@ -1337,15 +1337,15 @@ components:
         url:
           title: Url
           type: string
-          default: https://www.example.com
+          example: https://www.example.com
         is_private:
           title: Is Private
           type: boolean
-          default: true
+          example: true
         max_retries:
           title: Max Retries
           type: integer
-          default: 1
+          example: 1
         browser_options:
           $ref: '#/components/schemas/BrowserOptions'
     ScanOutput:

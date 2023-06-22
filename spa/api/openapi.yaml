@@ -77,7 +77,7 @@ paths:
     post:
       tags:
         - Access Tokens
-      summary: Obtain an Access Token
+      summary: Get access token
       description: Obtain an Access Token via the OAuth2.0 Client Credentials Flow.
       operationId: get_token
       requestBody:
