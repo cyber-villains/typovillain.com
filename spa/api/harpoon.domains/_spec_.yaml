@@ -13,10 +13,46 @@ info:
     - Set a notification target to receive alerts (email) when a similar domain is found (HTTP target types coming soon!)
     - Integrates with the swordphish.io API, to automatically scan suspicious domains in real-time
   contact: {}
-  version: 0.1.0
+  version: 0.1.4
 servers:
 - url: https://harpoon.domains/v1/
 paths:
+  /domain/add:
+    post:
+      tags:
+      - Monitored Domains
+      summary: Add domain name
+      description: Add a new domain name to monitor.
+      requestBody:
+        description: Add domain name to monitor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddOrUpdateDomain'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+  /domain/list:
+    get:
+      tags:
+      - Monitored Domains
+      summary: List monitored domains
+      description: List the domain names being monitored under this project.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schemas.Domain'
   /domain/{id}:
     get:
       tags:
@@ -83,42 +119,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/schemas.Message'
-  /domain/add:
-    post:
-      tags:
-      - Monitored Domains
-      summary: Add domain name
-      description: Add a new domain name to monitor.
-      requestBody:
-        description: Add domain name to monitor.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.AddOrUpdateDomain'
-        required: true
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.Message'
-      x-codegen-request-body-name: payload
-  /domain/list:
-    get:
-      tags:
-      - Monitored Domains
-      summary: List monitored domains
-      description: List the domain names being monitored under this project.
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/schemas.Domain'
   /notification/{id}:
     get:
       tags:
@@ -165,6 +165,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/schemas.Message'
+    delete:
+      tags:
+      - Notifications
+      summary: Delete notification
+      description: Delete the notification with the given id.
+      parameters:
+      - name: id
+        in: path
+        description: Notification ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
       x-codegen-request-body-name: payload
   /notification/list:
     get:
@@ -181,6 +200,42 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/schemas.Notification'
+  /notification/target/add:
+    post:
+      tags:
+      - Notification-Targets
+      summary: Add notification target
+      description: Add a notification target to this project.
+      requestBody:
+        description: Add domain to monitor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddOrUpdateNotificationTarget'
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.Message'
+      x-codegen-request-body-name: payload
+  /notification/target/list:
+    get:
+      tags:
+      - Notification-Targets
+      summary: List notification targets
+      description: List all notification targets for this project.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schemas.NotificationTarget'
   /notification/target/{id}:
     get:
       tags:
@@ -247,42 +302,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/schemas.Message'
-  /notification/target/add:
-    post:
-      tags:
-      - Notification-Targets
-      summary: Add notification target
-      description: Add a notification target to this project.
-      requestBody:
-        description: Add domain to monitor.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.AddOrUpdateNotificationTarget'
-        required: true
-      responses:
-        201:
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.Message'
-      x-codegen-request-body-name: payload
-  /notification/target/list:
-    get:
-      tags:
-      - Notification-Targets
-      summary: List notification targets
-      description: List all notification targets for this project.
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/schemas.NotificationTarget'
 components:
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
@@ -293,7 +312,7 @@ components:
     schemas.AddOrUpdateDomain:
       required:
       - domain_name
-      - target_id
+      - notification_target_id
       type: object
       properties:
         domain_name:
@@ -301,9 +320,11 @@ components:
           minLength: 8
           type: string
           example: example.net
-        target_id:
+        notification_target_id:
           type: string
           example: 5cd03ef1-afef-4245-b7a8-29d599790483
+        notification_thresholds:
+          $ref: '#/components/schemas/schemas.NotificationThreshold'
     schemas.AddOrUpdateNotificationTarget:
       required:
       - is_active
@@ -323,9 +344,12 @@ components:
     schemas.Domain:
       required:
       - domain_name
-      - target_id
+      - notification_target_id
       type: object
       properties:
+        client_id:
+          type: string
+          example: 5cd03ef1-afef-4245-b7a8-29d599790483
         created_on:
           type: string
           example: 2023-04-15T20:37:43Z
@@ -337,15 +361,14 @@ components:
         id:
           type: string
           example: 94cb9f33-caaf-4690-9b24-d9e3510bb147
+        notification_target_id:
+          type: string
+          example: e140bcf6-c946-48e3-a335-24564c313b90
+        notification_thresholds:
+          $ref: '#/components/schemas/schemas.NotificationThreshold'
         owner_sub:
           type: string
           example: 32e7a44e-7c76-4082-b672-7c3859ee26de
-        project_id:
-          type: string
-          example: 5cd03ef1-afef-4245-b7a8-29d599790483
-        target_id:
-          type: string
-          example: e140bcf6-c946-48e3-a335-24564c313b90
         updated_on:
           type: string
           example: 2023-04-15T20:37:43Z
@@ -370,9 +393,15 @@ components:
         certificate_url:
           type: string
           example: https://certificate.stream/ct/323032332d30342d31322d32323a626b756d687635776437377474687232
+        client_id:
+          type: string
+          example: e0d3a19c-ffe2-4bac-9a99-20b19426efc7
         details:
           type: string
           example: The domain, examples.net, was found!
+        expires:
+          type: integer
+          example: 1351700038292
         id:
           type: string
           example: 94cb9f33-caaf-4690-9b24-d9e3510bb147
@@ -392,9 +421,12 @@ components:
         owner_sub:
           type: string
           example: 32e7a44e-7c76-4082-b672-7c3859ee26de
-        project_id:
+        scores:
           type: string
-          example: e0d3a19c-ffe2-4bac-9a99-20b19426efc7
+          example: '{"is_wildcard": false, "hostname_ratcliff": 0.5833333333333334,
+            "hostname_levenshtein": 7, "domain_ratcliff": 0.6666666666666666, "domain_levenshtein":
+            3, "subdomain_segments": [{"segment_value": "banking", "segment_scores":
+            {"segment_ratcliff": 0.5323, "segment_levenshtein": 8}}]}'
         similar_domain_name:
           type: string
           example: examples.net
@@ -408,6 +440,9 @@ components:
       - target_value
       type: object
       properties:
+        client_id:
+          type: string
+          example: e0d3a19c-ffe2-4bac-9a99-20b19426efc7
         id:
           type: string
           example: 94cb9f33-caaf-4690-9b24-d9e3510bb147
@@ -420,15 +455,39 @@ components:
         owner_sub:
           type: string
           example: 32e7a44e-7c76-4082-b672-7c3859ee26de
-        project_id:
-          type: string
-          example: e0d3a19c-ffe2-4bac-9a99-20b19426efc7
         target_type:
           type: string
           example: email
         target_value:
           type: string
           example: soc@organization.org
+    schemas.NotificationThreshold:
+      type: object
+      properties:
+        cosine:
+          type: number
+          example: 0.9
+          maximum: 0.99
+          minimum: 0.8
+          description: "Cosine similarity scores <b>above</b> this number will generate notifications."
+        lcss:
+          maximum: 32
+          minimum: 7
+          type: integer
+          example: 7
+          description: "Longest common substring lengths <b>above</b> this number will generate notifications."
+        levenshtein:
+          maximum: 3
+          minimum: 1
+          type: integer
+          example: 3
+          description: "Levenshtein distance scores <b>below</b> this number will generate notifications."
+        ratcliff:
+          type: number
+          maximum: 0.99
+          minimum: 0.75
+          example: 0.85
+          description: "Ratcliff Obershelp similarity scores <b>above</b> this number will generate notifications."
     schemas.RequestBodyError:
       type: object
       properties:

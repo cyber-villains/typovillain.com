@@ -54,17 +54,6 @@ info:
 
     Access tokens have a max-age of 60 minutes. If the runtime of your program or application is expect to take longer than 60 minutes,
     you should write logic to handle requesting a new token after this period.
-
-    :::note
-    Your application or program can use API service oauth2 endpoints interchangeably.
-    For example, the following are all valid options for requesting access tokens, regardless of which service(s) your application is using:
-
-    - https://villain.network/oauth2/token
-    - https://certificate.stream/oauth2/token
-    - https://harpoon.domains/oauth2/token
-    - https://swordphish.io/oauth2/token
-
-    This only applies to `/oauth2/*` endpoints.
     :::
   version: "0.1.0"
 servers:
