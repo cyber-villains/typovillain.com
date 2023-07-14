@@ -14,7 +14,7 @@ info:
     - Fetch any logged certificate or domain name by its “certificate.stream” ID
 
     Check out the [Tutorials page](/about/tutorials/domain-monitoring-basics) for real-world examples.
-  version: 0.1.0
+  version: 0.1.3
 servers:
   - url: https://certificate.stream
 paths:
@@ -45,18 +45,22 @@ paths:
           required: false
           schema:
             title: Limit
-            exclusiveMaximum: 101
-            exclusiveMinimum: 0
+            exclusiveMaximum: true
+            maximum: 101
+            exclusiveMinimum: true
+            minimum: 1
             type: integer
             default: 100
           name: limit
           in: query
-        - description: Exclude the first N certificate logs from the response.
+        - description: Exclude the first X certificate logs from the response.
           required: false
           schema:
             title: Offset
-            exclusiveMaximum: 1000001
-            exclusiveMinimum: 0
+            exclusiveMaximum: true
+            maximum: 1000001
+            exclusiveMinimum: true
+            minimum: 1
             type: integer
           name: offset
           in: query
@@ -153,17 +157,22 @@ paths:
           required: false
           schema:
             title: Limit
-            exclusiveMaximum: 3001
-            exclusiveMinimum: 0
+            exclusiveMaximum: true
+            maximum: 3001
+            exclusiveMinimum: true
+            minimum: 1
             type: integer
             default: 1000
           name: limit
           in: query
-        - description: Exclude the first N records from the response.
+        - description: Exclude the first X domains from the response.
           required: false
           schema:
             title: Offset
-            exclusiveMaximum: 1000001
+            exclusiveMaximum: true
+            maximum: 1000001
+            exclusiveMinimum: true
+            minimum: 1
             type: integer
             gte: 0
           name: offset
@@ -197,6 +206,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Domains'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /domains/csv:
+    get:
+      tags:
+        - Domains
+      summary: Get domains csv file
+      description: |-
+        Retrieve the last hour of Domains from the Certificate Transparency Logs in CSV format.
+
+        If `date_and_hour` is specified, the CSV file for that specific hour is returned;
+        otherwise, the latest available hour is returned.
+
+        `date_and_hour` should be formatted as YYYY-MM-DD-HH.
+
+        If `presigned_url` is True, instead of returning the entire file in the response, 
+        a short-lived presigned URL is returned that can be used to retrieve the CSV file.
+
+        :::info
+        This endpoint redirects to a static copy of the CSV, which on average is about ~250MB in size.
+        Ensure your applications can "follow redirects" and can efficiently read the response.
+        :::
+
+        <br/>
+
+        :::info
+        To ensure consistency when handling late arriving data, the CSV file for previous hour is available
+        at the earliest 5 minutes after the hour. For example, the domains from the hour 5:00AM-6:00AM would 
+        available at 6:05AM.
+        :::
+
+      operationId: Get Domain Names CSV
+      parameters:
+        - description: Retrieve all domains recorded in the given hour. Uses the current UTC hour if no value is given.
+          required: false
+          schema:
+            title: Date And Hour
+            pattern: \d{4}-\d{2}-\d{2}-\d{2}
+            type: string
+          name: date_and_hour
+          in: query
+        - description: If True, returns a Presigned URL to the CSV file and NOT the file itself.
+          required: false
+          schema:
+            title: Presigned Url
+            type: boolean
+            default: false
+          name: presigned_url
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
         '422':
           description: Validation Error
           content:
