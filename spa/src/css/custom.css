@@ -34,8 +34,9 @@ html[data-theme="dark"] {
   color: rgb(245, 246, 247, 0.7);
 }
 
-.navbar {
-  padding-right: 28px;
+.navbar__inner {
+  padding-right: 30px;
+  padding-left: 30px;
 }
 
 .theme-api-markdown > table {

@@ -9,7 +9,7 @@ const ProjectsList = [
     png: require('@site/static/img/log.png').default,
     description: (
       <>
-        Closely audit the Certificate Transparency Logs with <a href='/'>certificate.stream</a> — An easy-to-use API for extracting cert information.
+        Closely audit the Certificate Transparency Logs with <a href='/docs/introduction-1'>certificate.stream</a> — An easy-to-use API for extracting cert information.
         <Link to='/docs/introduction-1' className="mt-5 d-block button button--outline button--primary button--md" style={{cursor: "pointer"}}>
           Read more
         </Link>
@@ -21,7 +21,7 @@ const ProjectsList = [
     png: require('@site/static/img/harpoon.png').default,
     description: (
       <>
-      Stay on top of domain squatting with <a href='/'>harpoon.domains</a> — A notification-based API for domain monitoring workflows.
+      Stay on top of domain squatting with <a href='/docs/introduction-2'>harpoon.domains</a> — A notification-based API for domain monitoring workflows.
       <Link to='/docs/introduction-2' className="mt-5 d-block button button--outline button--primary button--md" style={{cursor: "pointer"}}>
         Read more
       </Link>
@@ -29,11 +29,11 @@ const ProjectsList = [
     ),
   },
   {
-    title: 'Webpage Scraping',
+    title: 'URL Scanning',
     png: require('@site/static/img/swordfish.png').default,
     description: (
       <>
-      Instantly scrape any suspicious URLs with <a href='/'>swordphish.io</a> — A web scraper with phish detection and AI search capabilities.
+      Instantly scan any suspicious URLs with <a href='/docs/introduction-3'>swordphish.io</a> — A web scraping API with phish detection and AI search capabilities.
       <Link to='/docs/introduction-3' className="mt-5 d-block button button--outline button--primary button--md" style={{cursor: "pointer"}}>
         Read more
       </Link>

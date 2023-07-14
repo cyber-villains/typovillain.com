@@ -25,26 +25,6 @@ function getUser(setU) {
     })
 }
 
-function test() {
-  fetch( 'https://api.villain.network/hello',
-  {
-      method: 'GET',
-      credentials: 'include',
-      mode: 'cors',
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message === "Forbidden") {
-      throw new Error("Forbidden")
-    } else {
-      console.log('yep');
-    }
-  })
-  .catch((error) => {
-    console.log('not authenticated.');
-  })
-}
-
 Modal.setAppElement('#__docusaurus');
 
 export const UserContext = createContext(null);
@@ -56,7 +36,6 @@ export default function Root({children}) {
   // attempt to load user
   useEffect(() => {
     if (user === null) {
-      // test();
       getUser(setUser);
     }
   }, []);
