@@ -149,7 +149,7 @@ def check_domains(domains: list, your_domain: str) -> None:
 
 Here's what a real run looks like locally using Docker.
 
-![Hourly Batch Job GIF](../hourly-batch-job.gif)
+![Hourly Batch Job GIF](../hourly-batch.gif)
 
 That's it! You're now familiar with how the batch job works. 
 
@@ -237,7 +237,7 @@ Finally besides the `start_from_id` parameter, the other area where this code di
 
 Here's what a real run looks like locally using Docker.
 
-![Continuous Job GIF](../real-time-job.gif)
+![Continuous Job GIF](../real-time.gif)
 
 That's it! You're now familiar with how the real-time job works. 
 
