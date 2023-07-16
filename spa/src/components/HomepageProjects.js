@@ -49,7 +49,7 @@ function Project({png, title, description}) {
         <img src={png} width="64" className="img-responsive" role="img" />
       </div>
       <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
+        <h3 className='fw-normal'>{title}</h3>
         <p>{description}</p>
       </div>
     </div>
@@ -59,7 +59,7 @@ function Project({png, title, description}) {
 export default function HomepageProjects() {
   return (
     <section className={styles.features}>
-      <div className="container mt-5">
+      <div className="container mt-2">
         <div className="row">
           {ProjectsList.map((props, idx) => (
             <Project key={idx} {...props} />

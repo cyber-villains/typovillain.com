@@ -20,7 +20,7 @@ export default function ColorModeToggleWrapper(props) {
             <a 
             href="https://auth.villain.network/login?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback" 
             style={{marginLeft: 15, cursor: "pointer"}}
-            className='button button--outline button--primary'
+            className='fw-normal button button--outline button--primary'
             >
                 Sign up / Login
             </a>
