@@ -27,7 +27,9 @@ Unfortunately even with a clear strategic goal in mind, architecting the right s
 
 ## What is Villain
 
-The Villain Toolkit consists of <u>three</u> complimentary API services for creating or enhancing domain monitoring solutions. The toolkit condenses years of cybersecurity domain expertise into a practical set of API's designed for any individual or organization to quickly and easily integrate into cybersecurity solutions that can protect an organization's reputation. Unlike traditional cybersecurity vendors, Villain's mission is to empower cybersecurity teams with the tools to build their own threat intelligence workflows that ...
+### Service Overview
+
+The Villain Toolkit consists of <u>three</u> complimentary API services for creating or enhancing domain monitoring solutions. The toolkit condenses years of cybersecurity domain expertise into a practical set of API's designed for any individual or organization to quickly and easily integrate into in-house domain monitoring cybersecurity solutions. Unlike traditional cybersecurity vendors, Villain's mission is to empower cybersecurity teams with the tools to build their own threat intelligence workflows that ...
 - Integrate into existing organization-specific processes, technology stacks, and infrastructure
 - Allow teams to sharpen technical and engineering skills without the need to learn one-off tools
 - Close common domain monitoring gaps for a fraction of the price of traditional solutions
@@ -37,6 +39,12 @@ Together Villain's API services enable cybersecurity teams to create robust, end
 The functionality of each API service is further examined in our [Documentation](/docs). Additionally, the [Tutorials](/about/tutorials/intro) section contains a number of example "mash-ups" of these APIs which demonstrate how to build both simple and complex end-to-end, production-ready solutions.
 
 ![Services](services-overview.png)
+
+### Enterprise Solutions
+
+If your team or organization is interested in Villain, but might not have the bandwidth to implement any of these services on our own, then [Harpoon-Enterprise](/about/enterprise/harpoon-enterprise) — an all-in-one solution for domain monitoring — may be the right solution. Harpoon-Enterprise is a container-based solution with a user-friendly web portal for setting up domain monitoring workflows.
+
+### Contact
 
 Thanks for checking out the Villain Toolkit! If you have any questions, please reach out.
 

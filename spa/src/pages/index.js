@@ -6,6 +6,29 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import styles from "./index.module.css";
 // import HomepageFeatures from "../components/HomepageFeatures";
 import HomepageProjects from "../components/HomepageProjects";
+import EnterpriseCallout from "../components/EnterpriseCallout";
+import { TypeAnimation } from 'react-type-animation';
+
+const TypewriterComponent = () => {
+  return (
+    <TypeAnimation
+      sequence={[
+        // Same substring at the start will only be typed out once, initially
+        'gtihub.com',
+        500, // wait 1s before replacing "Mice" with "Hamsters"
+        'coinnbase.com',
+        500,
+        'Stop Scams with TpyoVilla',
+        100,
+        'Stop Scams with TypoVillain.',
+        15000
+      ]}
+      wrapper="span"
+      speed={200}
+      repeat={Infinity}
+    />
+  );
+};
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -14,7 +37,7 @@ function HomepageHeader() {
     <header className={clsx("hero hero--primary img-responsive", styles.heroBanner)}>
       <div className="container">
         <img src={png} width="64" className="img-responsive" role="img" />
-        <h1 className="hero__title">The {siteConfig.title}</h1>
+        <h1 className="hero__title"><TypewriterComponent/></h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
@@ -39,6 +62,8 @@ export default function Home() {
       <HomepageHeader />
       <main className="bt-1">
         <HomepageProjects />
+        <hr className="bg-dark"/>
+        <EnterpriseCallout />
       </main>
     </Layout>
   );

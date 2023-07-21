@@ -6,15 +6,15 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Villain Toolkit",
+  title: "TypoVillain",
   tagline: "Think like a Cyber Villain. Protect your Organization.",
-  url: "https://villain.network",
+  url: "https://typovillain.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "cyber-villains",
-  projectName: "villain.network", 
+  projectName: "typovillain.com", 
   presets: [
     [
       "docusaurus-preset-openapi",
@@ -29,7 +29,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl:
-            "https://github.com/cyber-villains/villain.network/tree/main/spa",
+            "https://github.com/cyber-villains/typovillain.com/tree/main/spa",
         },
         blog: false,
         theme: {
