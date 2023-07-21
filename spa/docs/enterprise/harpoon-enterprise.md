@@ -12,7 +12,7 @@ Harpoon-Enterprise can sharpen your cybersecurity team's threat intelligence wor
 
 ### Overview
 
-Harpoon-Enterprise extends the functionality of the [harpoon.domains]('/docs/introduction-2') API service while also integrating features from other Villain API Services — [certificate.stream]('/docs/introduction-1') and [swordphish.io]('/docs/introduction-3') — into a single user-friendly application that delivers an end-to-end robust, auditable, and efficient Domain Monitoring workflow.
+Harpoon-Enterprise extends the functionality of the [harpoon.domains](/docs/introduction-2) API service while also integrating features from other Villain API Services — [certificate.stream](/docs/introduction-1) and [swordphish.io](/docs/introduction-3) — into a single user-friendly application that delivers an end-to-end robust, auditable, and efficient Domain Monitoring workflow.
 
 Harpoon-Enterprise can ...
 
