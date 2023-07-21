@@ -2,11 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from "./HomepageProjects.module.css";
 import Link from '@docusaurus/Link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSatelliteDish, faTowerObservation, faFishFins } from '@fortawesome/free-solid-svg-icons'
 
 const ProjectsList = [
   {
     title: 'Certificate Transparency',
-    png: require('@site/static/img/log.png').default,
+    icon: faSatelliteDish,
     description: (
       <>
         Closely audit the Certificate Transparency Logs with <a href='/docs/introduction-1'>certificate.stream</a> — An easy-to-use API for extracting cert information.
@@ -18,7 +20,7 @@ const ProjectsList = [
   },
   {
     title: 'Domain Monitoring',
-    png: require('@site/static/img/harpoon.png').default,
+    icon: faTowerObservation,
     description: (
       <>
       Stay on top of domain squatting with <a href='/docs/introduction-2'>harpoon.domains</a> — A notification-based API for domain monitoring workflows.
@@ -30,7 +32,7 @@ const ProjectsList = [
   },
   {
     title: 'URL Scanning',
-    png: require('@site/static/img/swordfish.png').default,
+    icon: faFishFins,
     description: (
       <>
       Instantly scan any suspicious URLs with <a href='/docs/introduction-3'>swordphish.io</a> — A web scraping API with phish detection and AI search capabilities.
@@ -42,11 +44,11 @@ const ProjectsList = [
   }
 ];
 
-function Project({png, title, description}) {
+function Project({icon, title, description}) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <img src={png} width="64" className="img-responsive" role="img" />
+        <span className="text--primary fs-20"><FontAwesomeIcon icon={icon} /></span>
       </div>
       <div className="text--center padding-horiz--md">
         <h3 className='fw-normal'>{title}</h3>

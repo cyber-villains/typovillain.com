@@ -11,6 +11,10 @@ If you haven't already, <a href="https://auth.villain.network/signup?client_id=4
 
 All of Villain's API services have <u>free tier support</u>, so getting started is an easy, worry-free experience.
 
+## Audience
+
+This interactive API documentation is intended for software developers or cybersecurity engineers with basic to intermediate understandings of APIs. For managers who are interested in business-value related content, our [About page](/about/intro) contains information about Villain, domain monitoring, and end-to-end solutions highlighting <u>What</u> the Villain Toolkit can do rather than the technical aspects around <u>How</u>.
+
 ## Services
 
 | Tool      | Use-case   | Description |
@@ -18,10 +22,6 @@ All of Villain's API services have <u>free tier support</u>, so getting started 
 | <b>certificate.stream</b>        | Certificate Transparency, Domain Monitoring | REST API for <u>polling</u> the Certificate Transparency Logs. There's no need to set up complex log streaming infrastructure, simply poll the certificate.stream API to get the latest certificates from any or all log operators such as Cloudflare, Google, or DigiCert.        |
 | <b>harpoon.domains</b>           | Domain Monitoring, Alerting | REST API for <u>monitoring</u> the Certificate Transparency Logs. Simply, add a domain name that you want monitored and harpoon will use similarity metrics such as [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) to compare domains from the logs to your domain. If any similarity thresholds are met or exceeded, Harpoon will notify you.       |
 | <b>swordphish.io</b>             | Web Scraping, Phish Detection | REST API for scraping and extracting website information such as HTML, HAR, WHOIS, DNS, TLS certificates, and Screenshots. Swordphish can be hooked into Harpoon's monitoring workflow to immediately scrape any suspicious domains and share the results with you in real-time.    |
-
-## Audience
-
-This interactive API documentation is intended for software developers or cybersecurity engineers with basic to intermediate understandings of APIs. For managers who are interested in business-value related content, our [About page](/about/intro) contains information about Villain, domain monitoring, and end-to-end solutions highlighting <u>What</u> the Villain Toolkit can do rather than the technical aspects around <u>How</u>.
 
 ## Examples
 

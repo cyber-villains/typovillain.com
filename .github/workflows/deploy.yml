@@ -27,4 +27,4 @@ jobs:
           AWS_DEFAULT_REGION: 'us-east-1'
         run: |
           cd spa
-          aws s3 sync build/ s3://villain.network/
+          aws s3 sync build/ s3://typovillain.com/
