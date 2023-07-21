@@ -253,7 +253,6 @@ body {
   margin-bottom: 3.0rem;
 }
 
-
 .ml-5 {
   margin-left: 1.0rem;
 }
@@ -270,6 +269,17 @@ body {
   padding-left: 0px;
 }
 
+.pl-2 {
+  padding-left: 10px;
+}
+
+.pt-10 {
+  padding-top: 15px;
+}
+
+.p-2 {
+  padding: 30px !important;
+}
 
 :focus {
   outline: 0;
@@ -282,6 +292,17 @@ body {
 .form-row > label {
   display: block;
   margin-bottom: 6px;
+}
+
+.bg-dark {
+  background-color: #30363d !important;
+}
+
+.me-2 {
+  margin-right: 10px;
+}
+.fs-20 {
+  font-size: 40px;
 }
 
 input[type="text"],
