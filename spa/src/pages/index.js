@@ -4,7 +4,6 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import styles from "./index.module.css";
-// import HomepageFeatures from "../components/HomepageFeatures";
 import HomepageProjects from "../components/HomepageProjects";
 import EnterpriseCallout from "../components/EnterpriseCallout";
 import { TypeAnimation } from 'react-type-animation';
