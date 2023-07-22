@@ -6,7 +6,7 @@ import Layout from '@theme/Layout';
 import { logout } from '../utils/util';
 
 function getAccount(setU) {
-    fetch( 'https://api.villain.network/user',
+    fetch( 'https://api.typovillain.com/user',
     {
         method: 'GET',
         credentials: 'include',
@@ -35,7 +35,7 @@ const AddProjectForm = (props) => (
             }}
             onSubmit={async (values) => {
                 const xCSRF = Cookies.get('CSRF');
-                fetch( 'https://api.villain.network/project/add',
+                fetch( 'https://api.typovillain.com/project/add',
                 {
                     method: 'POST',
                     credentials: 'include',
@@ -59,7 +59,7 @@ const AddProjectForm = (props) => (
                 })
                 .catch((error) => {
                     console.log('not authenticated.');
-                    window.location.replace("https://villain.network/");
+                    window.location.replace("https://api.typovillain.com/");
                 });
             }}
             >
@@ -158,7 +158,7 @@ const DeleteProjectForm = (props) => {
                     }}
                     onSubmit={(values) => {
                         const xCSRF = Cookies.get('CSRF');                        
-                        fetch( 'https://api.villain.network/project/' + props.project.client_id,
+                        fetch( 'https://api.typovillain.com/project/' + props.project.client_id,
                         {
                             method: 'DELETE',
                             credentials: 'include',

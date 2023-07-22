@@ -2,7 +2,7 @@ import React, {useState, useEffect, createContext} from 'react';
 import Modal from 'react-modal';
 
 function getUser(setU) {
-  fetch( 'https://api.villain.network/user',
+  fetch( 'https://api.typovillain.com/user',
     {
       method: 'GET',
       credentials: 'include',
