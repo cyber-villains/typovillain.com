@@ -241,6 +241,10 @@ body {
   background-position: center; 
 } */
 
+.mt-2 {
+  margin-top: 5px !important;
+}
+
 .mt-5 {
   margin-top: 1.0rem;
 }
@@ -332,7 +336,7 @@ textarea {
 }
 
 input:focus-visible {
-  outline: 1px solid #59cc68;
+  outline: 1px solid #25b99a;
   border-radius: 3px;
 }
 
