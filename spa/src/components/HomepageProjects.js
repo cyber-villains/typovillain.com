@@ -2,13 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from "./HomepageProjects.module.css";
 import Link from '@docusaurus/Link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSatelliteDish, faTowerObservation, faFishFins } from '@fortawesome/free-solid-svg-icons'
+import { BinocularsFill, FileLock2Fill, UpcScan } from "react-bootstrap-icons";
 
 const ProjectsList = [
   {
     title: 'Certificate Transparency',
-    png: require('@site/static/img/https.png').default,
+    png: <FileLock2Fill/>,
     description: (
       <>
         Closely audit the Certificate Transparency Logs with <a href='/docs/introduction-1'>certificate.stream</a> — A near-real-time API for parsing X509 cert information.
@@ -20,7 +19,7 @@ const ProjectsList = [
   },
   {
     title: 'Domain Monitoring',
-    png: require('@site/static/img/harpoon.png').default,
+    png: <BinocularsFill/>,
     description: (
       <>
       Stay on top of domain squatting with <a href='/docs/introduction-2'>harpoon.domains</a> — A notification-based API for domain monitoring workflows.
@@ -32,7 +31,7 @@ const ProjectsList = [
   },
   {
     title: 'URL Scanning',
-    png: require('@site/static/img/swordfish.png').default,
+    png: <UpcScan/>,
     description: (
       <>
       Instantly scan any suspicious URLs with <a href='/docs/introduction-3'>swordphish.io</a> — A web scraping API with phish detection and AI search capabilities.
@@ -47,8 +46,8 @@ const ProjectsList = [
 function Project({png, title, description}) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <img width="64" src={png} />
+      <div className="text--primary text--center">
+        <span className='fs-20'>{png}</span>
       </div>
       <div className="text--center padding-horiz--md">
         <h3 className='fw-normal'>{title}</h3>

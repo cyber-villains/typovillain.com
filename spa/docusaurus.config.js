@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "TypoVillain",
-  tagline: "Think like a Cyber Villain. Protect your Organization.",
+  tagline: "Monitor the internet for threats targeting your Organization.",
   url: "https://typovillain.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -27,7 +27,6 @@ const config = {
         docs: {
           routeBasePath: "about",
           sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
           editUrl:
             "https://github.com/cyber-villains/typovillain.com/tree/main/spa",
         },

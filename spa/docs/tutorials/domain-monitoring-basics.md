@@ -14,9 +14,9 @@ There are two different approaches presented below, an hourly batch job and a re
 
 ## Hourly Batch Job
 
-The hourly batch job will poll the [certificate.stream](/docs/introduction-1) API every hour for domain names found in the Certificate Transparency Logs. This job will also check how similar each domain name is to `your_domain`, a domain name that you want monitored.
+The hourly batch job will poll the [certificate.stream](/docs/get-domains-csv-file) API every hour for domain names found in the Certificate Transparency Logs. This job will also check how similar each domain name is to `YOUR_DOMAIN`, a domain name that you want monitored.
 
-[Full source code](https://github.com/cyber-villains/examples/domain-monitoring-basics)
+➤ [Full source code](https://github.com/cyber-villains/examples/domain-monitoring-basics)
 
 ### Pros and Cons
 
@@ -26,41 +26,52 @@ The hourly batch job will poll the [certificate.stream](/docs/introduction-1) AP
 
 ### Walkthrough
 
-The most important, configurable argument to this example is `YOUR_DOMAIN` in `main.py`. This is the domain name the script will use for performing similarity comparisons on what's found in certificate transparency logs.
+There are two variables that can be configured when running this script. The first variable is `YOUR_DOMAIN` in `main.py`. This is the domain name the script will use for performing similarity comparisons with what's found in certificate transparency logs. The second is `date_and_hour`. This is the specific hour for which you want to retrieve domains. If you don't specify a `date_and_hour`, the endpoint will use the previous hour. In the event you need to check previous dates, you can specify any date and hour from the past 30 days.
 
-```python title="domain-monitoring-basics/hourly-batch-job/main.py"
-from monitor import monitor_previous_hour
+```python title="domain-monitoring-basics/hourly-batch-job-csv/main.py"
+from monitor import monitor_hourly
 
-# This is the domain name that you want monitored!
 YOUR_DOMAIN = "examplecompany.com"
 
 
 if __name__ == "__main__":
-    # TODO: you could use command line arguments to set date_and_hour
-    # None is a valid value, monitor_previous_hour can handle populating it
-    date_and_hour = None  
-    monitor_previous_hour(YOUR_DOMAIN, date_and_hour=date_and_hour)
+    # TODO: you could use command line arguments to set date_and_hour (or even YOUR_DOMAIN)!
 
+    # **Note**
+    # To ensure consistency around handling late arriving data, the CSV file
+    # for previous hour is available at the earliest 5 minutes after the hour.
+    # That is, the domains from the hour 5:00AM-6:00AM would available at 6:05AM.
+    date_and_hour = None  # If None, will use the last hour.
+
+    monitor_hourly(YOUR_DOMAIN, date_and_hour)
 ```
 
-Let's dive into the heart of the script by looking at the entrypoint for the hourly batch job, `monitor_previous_hour`. This function sets up the main components of the job: authentication and domain name processing. 
+Let's dive into the details of the script by looking at the entrypoint function, `monitor_hourly`. This function sets up the main components of the job: authentication, requesting the CSV file, and domain name processing. 
 
-```python title="domain-monitoring-basics/hourly-batch-job/monitor.py"
-def monitor_previous_hour(domain_name: str, date_and_hour: str = None) -> None:
+```python title="domain-monitoring-basics/hourly-batch-job-csv/monitor.py
+def monitor_hourly(your_domain: str, date_and_hour: str) -> None:
     # get an access token
     token = get_token(client_id, client_secret)
     # check if date_and_hour was given
     if date_and_hour is None:
         date_and_hour = get_previous_date_and_hour_utc()
     # process the last hour of domains
-    monitor_domains(domain_name, token, date_and_hour)
-    logger.info(f"Finished monitoring domains from {date_and_hour}.")
-    return
+    domains_csv = get_domains_csv_streamer(token, date_and_hour)
+    header_row = True
+    for row in domains_csv:
+        # skip header row
+        if header_row:
+            header_row = False
+            continue
+        # handle each row
+        process_csv_row(your_domain, row)
 ```
 
-The first thing the script does is obtain an ["access token"](/docs/introduction). The client id and secret are used to request a token from the token endpoint. Be aware that the values for these variables are set globally and actually read from the environment at runtime. If you're running these examples using Docker or another container management tool, be sure to check out the README for information on how to pass these values to the container at run time.
+There's a lot going on in this block, and so, we'll breakdown it down over the next few sections.
 
-```python title="domain-monitoring-basics/hourly-batch-job/monitor.py"
+The first thing the script does is obtain an ["access token"](/docs/introduction) from the token endpoint using the client id and secret. Be aware that the values for these variables are set globally and actually read from the environment at runtime. If you're running these examples using Docker or another container management tool, be sure to check out the README for information on how to pass these values to the container at run time.
+
+```python title="domain-monitoring-basics/hourly-batch-job-csv/monitor.py"
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 ```
@@ -75,89 +86,74 @@ def get_previous_date_and_hour_utc():
     return dt.strftime("%Y-%m-%d-%H")  # should look like "2023-06-01-16"
 ```
 
-Now `your_domain`, `token`, and `date_and_hour` are passed to `monitor_domains` where a bulk of the logic is contained. The function has comments that outline what is happening line by line, but at a high level, this function is making API calls to certificate.stream (`get_domains`) and processing the results one by one (`check_domains`).
+After obtaining a valid `token` and `date_and_hour` if you supplied one, we can pass these values to the `get_domains_csv_streamer` function. This function will make a request to the certificate.stream API's [hourly domain CSV endpoint](/docs/get-domains-csv-file). The response from this endpoint is a CSV file containing all of the domains from the past hour. This CSV is usually between 200MB - 300MB, so we "stream" the response line by line using the `requests` library in order to avoid reading the whole file into memory.
 
-```python title="domain-monitoring-basics/hourly-batch-job/monitor.py"
-def monitor_domains(your_domain: str, token: str, date_and_hour: str) -> None:
-    # define url params
-    params = {
-        "limit": 1000,  # Fetch batches of 1000 domains at a time.
-        "offset": 0,
-        "date_and_hour": date_and_hour,
-    }
-    # make initial request for domains
-    domains_response = get_domains(token, params)
-    # domains_response schema: https://villain.network/docs/list-latest-domains
-
-    # `count` is the total number of domains from the past hour
-    count = domains_response["count"]
-    logger.info(f"There are a total of {count} domains from the past hour.")
-
-    # the offset used for this page of results (0)
-    offset = domains_response["offset"]
-
-    # check the first batch of domains
-    check_domains(domains_response["domains"], your_domain)
-    logger.info(f"Finished checking {offset+1000}/{count} domains.")
-
-    # the `/list` endpoint uses offset-based pagination, so
-    # we'll continue making calls with the offset parameter
-    # until all domains from the past hour have been processed
-    while (offset + 1000) < count:
-        # update offset and re-request data
-        offset += 1000
-        params["offset"] = offset
-        domains_response = get_domains(token, params)
-        # check the domains
-        check_domains(domains_response["domains"], your_domain)
-        logger.info(f"Finished checking {offset}/{count} domains.")
-
-    # all domains from the previous hour have now been checked
-    # and alerts generated for any that were similar to your_domain
-    return
-```
-
-The `get_domains` function will make a request to the certificate.stream API using the given token. If there is any bad response (400s or 500s status code), this function will raise an exception. Otherwise, the response is returned as a python dictionary. Note that ["offset-based pagination"](https://developer.box.com/guides/api-calls/pagination/offset-based/) is used for retrieving results as the number of domain names extracted per hour is too large to fit into a single response (we pull about 6GB of raw certificate data per hour). Therefore, it takes multiple API calls (hence the `while` loop in `monitor_domains`) to retrieve the entire set of data for the past hour.
-
-```python title="domain-monitoring-basics/hourly-batch-job/api.py"
-def get_domains(token: str, params: dict) -> dict:
-    url = f"{BASE_URL}/domains/list"
+```python title="domain-monitoring-basics/hourly-batch-job-csv/api.py"
+def get_domains_csv_streamer(token: str, date_and_hour: str):
+    url = f"{BASE_URL}/domains/csv"
+    params = {"date_and_hour": date_and_hour}
     headers = {"Authorization": f"Bearer {token}", "Accept": "application/json"}
-    response = requests.request("GET", url, headers=headers, params=params)
-    response.raise_for_status()
-    return response.json()
+    sess = requests.Session()
+    with sess.get(url, headers=headers, params=params, stream=True) as response:
+        for line in response.iter_lines():
+            yield line
 ```
 
-The `check_domains` function will iterate over the fetched domains in each batch. In this example, the `metric` and `alert` functions (and the `MINIMUM_THRESHOLD` variable) are more or less "stubs" that you should modify to meet your needs. For example, you may be interested in applying more complex similarity metrics to `your_domain` and the domains from the logs. Additionally, alerts in your workflow could take the form of emails, ticketing systems, or more API calls to different services. All of these decisions are important for you and your team to make in order to build a solid solution. If you're interested in hearing about how we've helped other organizations configure these components, send us an email or check out [harpoon.domains](/docs/introduction-2).
+:::info
+[certificate.stream's](/docs/get-domains-csv-file) CSV endpoint returns a redirect to the physical CSV file. If you choose to adapt this example to your preferred programming language or HTTP libraries, you should ensure that your HTTP client is configured to follow redirects if it is not doing so by default.
+:::
 
-```python title="domain-monitoring-basics/hourly-batch-job/monitor.py"
-def check_domains(domains: list, your_domain: str) -> None:
-    # iterate through the domains returned from certificate.stream
-    for domain_obj in domains:
-        # compare each to your_domain
-        ct_log_domain = domain_obj["domain_name"]
-        value = metric(your_domain, ct_log_domain)
-        # if the similarity threshold is exceeded, create alert!
-        if value < MINIMUM_THRESHOLD:
-            alert(your_domain, ct_log_domain)
-        else:
-            logger.info(f"Ok. {ct_log_domain} is NOT similar to {your_domain} ...")
+Now, all that is left to do is process each row of the CSV file. As its name implies, the `process_csv_row` function will handle parsing an individual line from the CSV file.
 
+```python title="domain-monitoring-basics/hourly-batch-job-csv/monitor.py"
+def process_csv_row(your_domain: str, row: bytes) -> None:
+    # decode and split row by comma
+    data = row.decode().split(",")
+    # domain_name is the first column
+    ct_log_domain = data[0]
+    # compare the ct_log_domain to your_domain
+    value = metric(your_domain, ct_log_domain)
+    # if the similarity threshold is exceeded, create alert!
+    if value < MINIMUM_THRESHOLD:
+        alert(your_domain, ct_log_domain)
+    else:
+        logger.info(f"{ct_log_domain} is NOT similar to {your_domain} ...")
 ```
+
+In this example, the `metric` and `alert` functions (and the `MINIMUM_THRESHOLD` variable) are more or less "stubs" that you should modify to meet your needs. For example, you may be interested in applying more complex similarity metrics to `your_domain` and the domains from the logs. Additionally, alerts in your workflow could take the form of emails, ticketing systems, or more API calls to different services. All of these decisions are important for you and your team to make in order to build a solid solution. If you're interested in hearing about how we've helped other organizations configure these components, send us an email or check out [harpoon.domains](/docs/introduction-2).
+
+```python title="domain-monitoring-basics/hourly-batch-job-csv/monitor.py"
+# todo: Adjust your threshold based on your metrics
+MINIMUM_THRESHOLD = 2
+
+
+def alert(your_domain: str, ct_log_domain: str) -> None:
+    # todo: Add your own alerting here!
+    logger.info(f"Heads up! {ct_log_domain} is very similar to {your_domain} ...")
+    return None
+
+
+def metric(your_domain: str, ct_log_domain: str) -> float:
+    # todo: Add your own similarity metrics/functions here!
+    distance = td.levenshtein(your_domain, ct_log_domain)
+    return distance
+```
+
+... and that's all the code for the hourly batch job! You're now familiar with how the certificate.stream API can help you create a simple domain monitoring workflow. 
 
 ### A Real Batch Run
 
 Here's what a real run looks like locally using Docker.
 
-![Hourly Batch Job GIF](../hourly-batch.gif)
-
-That's it! You're now familiar with how the batch job works. 
+![Hourly Batch Job GIF](hourly-batch-job-csv.gif)
 
 Again, please feel free to clone the code, make modifications, and build something awesome!
 
 ## Real-time Monitoring
 
-[Source code](https://github.com/cyber-villains/examples/domain-monitoring-basics)
+The real-time monitoring job will poll the [certificate.stream](/docs/introduction-1) API continously for new domain names found in the Certificate Transparency Logs. This job will also check how similar each domain name is to YOUR_DOMAIN, a domain name that you want monitored.
+
+➤ [Full source code](https://github.com/cyber-villains/examples/domain-monitoring-basics)
 
 ### Pros and Cons
 
@@ -195,7 +191,7 @@ def monitor_continuously(domain_name: str) -> None:
                 raise e
 ```
 
-In this case, we're not concerned with pulling the data for a particular hour, but instead want to continously pull the latest domains as they are recorded by certificate.stream's log monitor. This is achieved via the `start_from_id` parameter. This parameter controls where the internal "query" for domains from the certificate transparency log will start, and so, the code will update this parameter after each consecutive call. You'll notice that there is an "if" check, `if len(domains_response["domains"]) == 0:`, which is determining whether there were any "new" domains from the previous call. Because this method is "near real-time" (truthfully, things are happening in ~30 second microbatches behind the scenes), there are brief periods where there may be no "new" domains recorded. In these cases, we just return the same `start_from_id`, wait a second, and retry the same API call.
+In this case, we're not concerned with pulling the data for a particular hour, but instead want to continously pull the latest domains as they are recorded by certificate.stream's log monitor. This is achieved via the `start_from_id` parameter. This parameter controls where the internal "query" for domains from the certificate transparency log will start, and so, the code will update this parameter after each consecutive call. You'll notice that there is an "if" check, `if len(domains_response["domains"]) == 0:`, which is determining whether there were any "new" domains from the previous call. Because this method is "near real-time" (certificate.stream processes logs in ~30 second microbatches behind the scenes), there are brief periods where there may be no "new" domains recorded. In these cases, we just return the same `start_from_id`, wait a second, and retry the same API call.
 
 ```python title="domain-monitoring-basics/real-time-job/monitor.py
 @retry_auth_failures()
@@ -216,18 +212,13 @@ def monitor_domains(domain_name: str, token: str, start_from_id: str = None) -> 
 
     # check the domains
     check_domains(domains_response["domains"], domain_name)
-
+    
     # all latest domains from the last request have now been checked,
     # and alerts generated for any that were similar to your_domain
 
-    if start_from_id is None:
-        # if this is the "first" call, return the last id to be used
-        # as the `start_from_id` in next the function call
-        next_start_id = domains_response["domains"][0]["id"]
-    else:
-        # otherwise, use the last id as parameter to the next call
-        next_start_id = domains_response["domains"][-1]["id"]
-
+    # return the last id to be used as the `start_from_id`
+    # in next the function call
+    next_start_id = domains_response["domains"][-1]["id"]
     return next_start_id
 ```
 
@@ -237,7 +228,7 @@ Finally besides the `start_from_id` parameter, the other area where this code di
 
 Here's what a real run looks like locally using Docker.
 
-![Continuous Job GIF](../real-time.gif)
+![Continuous Job GIF](real-time.gif)
 
 That's it! You're now familiar with how the real-time job works. 
 

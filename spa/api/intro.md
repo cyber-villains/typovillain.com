@@ -7,9 +7,9 @@ slug: /
 
 Welcome to Villain's interactive API documentation.
 
-If you haven't already, <a href="https://auth.villain.network/signup?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback">sign up</a> and create a Project. Once you have a project, you can use the Client "ID" and "Secret" associated with your project for authentication and using the Villain API services.
-
 All of Villain's API services have <u>free tier support</u>, so getting started is an easy, worry-free experience.
+
+If you haven't already, <a href="https://auth.villain.network/signup?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback">sign up</a> and create a Project. Once you have a project, you can use the Client "ID" and "Secret" associated with your project for authentication and using the Villain API services.
 
 ## Audience
 
@@ -21,7 +21,7 @@ This interactive API documentation is intended for software developers or cybers
 | --------------------------------- | --------------------------------- | --------------------------------- |
 | <b>certificate.stream</b>        | Certificate Transparency, Domain Monitoring | REST API for <u>polling</u> the Certificate Transparency Logs. There's no need to set up complex log streaming infrastructure, simply poll the certificate.stream API to get the latest certificates from any or all log operators such as Cloudflare, Google, or DigiCert.        |
 | <b>harpoon.domains</b>           | Domain Monitoring, Alerting | REST API for <u>monitoring</u> the Certificate Transparency Logs. Simply, add a domain name that you want monitored and harpoon will use similarity metrics such as [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) to compare domains from the logs to your domain. If any similarity thresholds are met or exceeded, Harpoon will notify you.       |
-| <b>swordphish.io</b>             | Web Scraping, Phish Detection | REST API for scraping and extracting website information such as HTML, HAR, WHOIS, DNS, TLS certificates, and Screenshots. Swordphish can be hooked into Harpoon's monitoring workflow to immediately scrape any suspicious domains and share the results with you in real-time.    |
+| <b>swordphish.io</b>             | Web Scraping, Phish Detection, AI/ML Asset Monitoring | REST API for scraping and extracting website information such as HTML, HAR, WHOIS, DNS, TLS certificates, and Screenshots. Swordphish can be hooked into Harpoon's monitoring workflow to immediately scrape any suspicious domains and share the results with you in real-time.    |
 
 ## Examples
 

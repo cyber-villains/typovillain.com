@@ -57,7 +57,7 @@ info:
     :::
   version: "0.1.0"
 servers:
-- url: "https://api.villain.network/"
+- url: "https://api.typovillain.com/"
   variables:
     basePath:
       default: "dev"
@@ -67,7 +67,10 @@ paths:
       tags:
         - Access Tokens
       summary: Get access token
-      description: Obtain an Access Token via the OAuth2.0 Client Credentials Flow.
+      description: |
+        Obtain an Access Token via the OAuth2.0 Client Credentials Flow.
+
+        These values are available on your profile page.
       operationId: get_token
       requestBody:
         content:
@@ -77,10 +80,13 @@ paths:
               properties:
                 client_id:
                   type: string
+                  description: This is client id for your "Project".
                 client_secret:
                   type: string
+                  description: This is client secret for your "Project".
                 grant_type:
                   type: string
+                  description: This value will always be `client_credentials`.
               example:
                 client_id: <your_client_id>
                 client_secret: <your_client_secret>

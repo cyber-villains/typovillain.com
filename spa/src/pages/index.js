@@ -17,7 +17,7 @@ const TypewriterComponent = () => {
         500, // wait 1s before replacing "Mice" with "Hamsters"
         'coinnbase.com',
         500,
-        'Stop Scams with TpyoVilla',
+        'Stop Scams with TpyoVill',
         100,
         'Stop Scams with TypoVillain.',
         15000
@@ -61,7 +61,7 @@ export default function Home() {
       <HomepageHeader />
       <main className="bt-1">
         <HomepageProjects />
-        <hr className="bg-dark"/>
+        <hr className="mt-2 bg-dark"/>
         <EnterpriseCallout />
       </main>
     </Layout>

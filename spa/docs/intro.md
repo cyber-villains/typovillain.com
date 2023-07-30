@@ -48,5 +48,5 @@ If your team or organization is interested in Villain, but might not have the ba
 
 Thanks for checking out the Villain Toolkit! If you have any questions, please reach out.
 
-— The Team at Villain
-(info@villain.network)
+— The Team at TypoVillain
+(info@typovillain.com)
