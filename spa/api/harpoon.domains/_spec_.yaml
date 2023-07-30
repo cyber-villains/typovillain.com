@@ -332,7 +332,7 @@ components:
     schemas.AddOrUpdateDomain:
       required:
       - domain_name
-      - notification_target_id
+      # - notification_target_id
       type: object
       properties:
         domain_name:
@@ -343,6 +343,7 @@ components:
         notification_target_id:
           type: string
           example: 5cd03ef1-afef-4245-b7a8-29d599790483
+          description: Optional — the target to notify if there are any thresholds met for this domain name.
         notification_thresholds:
           $ref: '#/components/schemas/schemas.NotificationThreshold'
     schemas.AddOrUpdateNotificationTarget:
