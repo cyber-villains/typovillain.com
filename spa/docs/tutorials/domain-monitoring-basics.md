@@ -16,7 +16,7 @@ There are two different approaches presented below, an hourly batch job and a re
 
 The hourly batch job will poll the [certificate.stream](/docs/get-domains-csv-file) API every hour for domain names found in the Certificate Transparency Logs. This job will also check how similar each domain name is to `YOUR_DOMAIN`, a domain name that you want monitored.
 
-➤ [Full source code](https://github.com/cyber-villains/examples/domain-monitoring-basics)
+➤ [Full source code](https://github.com/cyber-villains/examples/tree/main/domain-monitoring-basics/hourly-batch-job-csv)
 
 ### Pros and Cons
 
@@ -153,7 +153,7 @@ Again, please feel free to clone the code, make modifications, and build somethi
 
 The real-time monitoring job will poll the [certificate.stream](/docs/introduction-1) API continously for new domain names found in the Certificate Transparency Logs. This job will also check how similar each domain name is to YOUR_DOMAIN, a domain name that you want monitored.
 
-➤ [Full source code](https://github.com/cyber-villains/examples/domain-monitoring-basics)
+➤ [Full source code](https://github.com/cyber-villains/examples/tree/main/domain-monitoring-basics/real-time-job)
 
 ### Pros and Cons
 
