@@ -306,21 +306,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /info/all_log_list:
-    get:
-      tags:
-        - Info
-      summary: Get all log list
-      description: Retrieves the list of all known CT Logs for Google Chrome.
-      operationId: Get All Log List
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                title: Response Get All Log List
-                type: object
+  # /info/all_log_list:
+  #   get:
+  #     tags:
+  #       - Info
+  #     summary: Get all log list
+  #     description: Retrieves the list of all known CT Logs for Google Chrome.
+  #     operationId: Get All Log List
+  #     responses:
+  #       '200':
+  #         description: Successful Response
+  #         content:
+  #           application/json:
+  #             schema:
+  #               title: Response Get All Log List
+  #               type: object
 components:
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme

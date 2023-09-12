@@ -9,14 +9,14 @@ info:
     - The Swordphish ML model assigns a <i>phish score</i> to each submission to help minimize false positives
     - Automatically identify related scans by screenshot with Swordphish's AI enhanced search capability
     - Responses include intelligence data such as DNS, WHOIS, TLS, HTML, and HTTP Logs that your applications or workflows can leverage for custom post-scan analysis
-  version: 0.2.6
+  version: 0.2.10
 servers:
   - url: https://swordphish.io/v1
 paths:
   /scanner/do:
     post:
       tags:
-        - Scanner
+        - Scans
       summary: Do scan
       description: |-
         Submits a scan to swordphish.
@@ -47,8 +47,8 @@ paths:
   /scanner/list:
     get:
       tags:
-        - Scanner
-      summary: Get scans
+        - Scans
+      summary: List scans
       description: |-
         Lists the scans submitted by your project.
 
@@ -95,7 +95,7 @@ paths:
   /scanner/presigned/{id}:
     get:
       tags:
-        - Scanner
+        - Scans
       summary: Get scan presigned url
       description: |-
         Retrieves the pre-signed URL to the scan for the given ID.
@@ -139,7 +139,7 @@ paths:
   /scanner/{id}:
     get:
       tags:
-        - Scanner
+        - Scans
       summary: Get scan
       description: |-
         Retrieves the full scan response for the given ID.
@@ -165,6 +165,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Scan'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /search/submit:
+    post:
+      tags:
+        - Searches
+      summary: Submit search query
+      description: |-
+        Submits a search for similar webpages based on the given `b64_png`.
+      operationId: Submit Search Query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchInput'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Search'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /search/list:
+    get:
+      tags:
+        - Searches
+      summary: List search queries
+      operationId: List Search Queries
+      description: |
+        Lists the searches submitted by your project.
+      parameters:
+        - description: Total number of records to return.
+          required: false
+          schema:
+            title: Limit
+            exclusiveMaximum: 25
+            exclusiveMinimum: 0
+            type: integer
+            default: 10
+          name: limit
+          in: query
+        - description: Only include records added after this ID.
+          required: false
+          schema:
+            title: Start From Id
+            type: string
+          name: start_from_id
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Get Search Queries V1 Search List Get
+                type: array
+                items:
+                  $ref: '#/components/schemas/Search'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /search/{id}:
+    get:
+      tags:
+        - Searches
+      summary: Get search query
+      operationId: Get Search Query
+      description: |
+        Retrieves the search query result for the given ID.
+      parameters:
+        - description: The swordphish.io search query id.
+          required: true
+          schema:
+            title: Id
+            type: string
+          name: id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Search'
         '422':
           description: Validation Error
           content:
@@ -1479,6 +1577,80 @@ components:
           $ref: '#/components/schemas/Detail'
         presigned_url:
           $ref: '#/components/schemas/PresignedURL'
+    Search:
+      title: Search
+      required:
+        - id
+        - timestamp
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        timestamp:
+          title: Timestamp
+          type: integer
+        expires:
+          title: Expires
+          type: integer
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+          default: QUEUED
+        collage_b64_png:
+          title: Collage B64 PNG
+          type: string
+          description: "A single base64 encoded PNG string made up of 200x200 squares of the most similar webpages."
+        similar_pngs:
+          title: Similar PNGs
+          type: array
+          items:
+            $ref: '#/components/schemas/SimilarPNG'
+    SearchInput:
+      title: SearchInput
+      required:
+        - b64_png
+      type: object
+      properties:
+        b64_png:
+          title: B64 PNG
+          type: string
+          description: "A base64 encoded PNG."
+          example: "<Base64 encoded PNG as string>"
+        limit:
+          title: Limit
+          type: integer
+          example: 25
+          description: "The number of similar item to return."
+    SimilarPNG:
+      title: SimilarPNG
+      required:
+        - nn_index
+        - domain_name
+        - certificate_stream_id
+        - expires
+        - presigned_url
+      type: object
+      properties:
+        nn_index:
+          title: NN Index
+          type: integer
+          description: The Nearest Neighbor Rank (lower index = more similar).
+        domain_name:
+          title: Domain Name
+          type: string
+        certificate_stream_id:
+          title: Certificate Stream Id
+          type: string
+          description: |
+            If this webpage was observed in the CT Logs, this field will be populated with the certificate.stream id.
+        expires:
+          title: Expires
+          type: integer
+        presigned_url:
+          title: Presigned Url
+          type: string
+          description: A URL where the given PNG can be retrieved.
     Status:
       title: Status
       enum:
