@@ -5,6 +5,6 @@
   "template": "docusaurus",
   "container": {
     "startScript": "watch",
-    "node": "14"
+    "node": "20"
   }
 }
