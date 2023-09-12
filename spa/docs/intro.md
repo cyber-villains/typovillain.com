@@ -25,16 +25,17 @@ In order to stay ahead of such threats, many organizations implement domain moni
 
 Unfortunately even with a clear strategic goal in mind, architecting the right solution to protect an organization's reputation can still prove to be a challenging task. Due to time, budget, or technical constraints, many organizations can end up selecting the wrong tool, implementing the right tool but in the wrong way, or foregoing any sort of technical solution in favor of simple manual processes.
 
-## What is Villain
+## What is TypoVillain
 
 ### Service Overview
 
-The Villain Toolkit consists of <u>three</u> complimentary API services for creating or enhancing domain monitoring solutions. The toolkit condenses years of cybersecurity domain expertise into a practical set of API's designed for any individual or organization to quickly and easily integrate into in-house domain monitoring cybersecurity solutions. Unlike traditional cybersecurity vendors, Villain's mission is to empower cybersecurity teams with the tools to build their own threat intelligence workflows that ...
+TypoVillain's Toolkit consists of <u>three</u> complimentary API services for creating or enhancing domain monitoring solutions. The toolkit condenses years of cybersecurity domain expertise into a practical set of API's designed for any individual or organization to quickly and easily integrate into in-house domain monitoring cybersecurity solutions. Unlike traditional cybersecurity vendors, TypoVillain's mission is to empower cybersecurity teams with the tools to build their own threat intelligence workflows that ...
 - Integrate into existing organization-specific processes, technology stacks, and infrastructure
 - Allow teams to sharpen technical and engineering skills without the need to learn one-off tools
 - Close common domain monitoring gaps for a fraction of the price of traditional solutions
+- Adopt an active stance on domain monitoring workflows with AI/ML
 
-Together Villain's API services enable cybersecurity teams to create robust, end-to-end domain monitoring solutions. However, each of these services is capable of acting entirely independent of one another. This allows solution architects the freedom to pick and choose the APIs that best fit their particular use-case without the need to completely abandon or redesign existing workflows. 
+Together TypoVillain's API services enable cybersecurity teams to create robust, end-to-end domain monitoring solutions. However, each of these services is capable of acting entirely independent of one another. This allows solution architects the freedom to pick and choose the APIs that best fit their particular use-case without the need to completely abandon or redesign existing workflows. 
 
 The functionality of each API service is further examined in our [Documentation](/docs). Additionally, the [Tutorials](/about/tutorials/intro) section contains a number of example "mash-ups" of these APIs which demonstrate how to build both simple and complex end-to-end, production-ready solutions.
 
@@ -42,11 +43,13 @@ The functionality of each API service is further examined in our [Documentation]
 
 ### Enterprise Solutions
 
-If your team or organization is interested in Villain, but might not have the bandwidth to implement any of these services on our own, then [Harpoon-Enterprise](/about/enterprise/harpoon-enterprise) — an all-in-one solution for domain monitoring — may be the right solution. Harpoon-Enterprise is a container-based solution with a user-friendly web portal for setting up domain monitoring workflows.
+If you or your organization is interested in TypoVillain, but might not have the bandwidth to implement any of these services on our own, then [Harpoon-Enterprise](/about/enterprise/harpoon-enterprise) — an all-in-one solution for domain monitoring — may be the right solution. Harpoon-Enterprise is a container-based solution with a user-friendly web portal for setting up domain monitoring workflows.
+
+You can read more about Harpoon-Enterprise [here](/about/enterprise/harpoon-enterprise).
 
 ### Contact
 
-Thanks for checking out the Villain Toolkit! If you have any questions, please reach out.
+Thanks for checking out TypoVillain! If you have any questions, please reach out. We'd be happy to chat.
 
 — The Team at TypoVillain
 (info@typovillain.com)
