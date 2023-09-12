@@ -9,8 +9,8 @@ info:
       server-to-server interactions that must run in the background, without immediate interaction with a user, and is 
       often referred to as daemons or service accounts. — [Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow)
 
-    Access is "project" based and centrally managed through Villain's identity provider server. This means you only need to
-    create one account to access all three Toolkit API services. Before you can begin using these APIs, you must <a href="https://auth.villain.network/signup?client_id=4jj7baft9iisgeppfpblhpauiv&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.villain.network%2Foauth2%2Fcallback">sign up</a>, verify your email address, and create a "project" which will have a unique `client_id` 
+    Access is "project" based and centrally managed through TypoVillain's identity provider server. This means you only need to
+    create one account to access all three Toolkit API services. Before you can begin using these APIs, you must <a href="https://auth.typovillain.com/login?client_id=6gnt6nvgsk07jomm8ie538gkdt&response_type=code&scope=aws.cognito.signin.user.admin+email+openid&redirect_uri=https%3A%2F%2Fapi.typovillain.com%2Foauth2%2Fcallback">sign up</a>, verify your email address, and create a "project" which will have a unique `client_id` 
     and `client_secret`. These two credentials are the first step for gaining programmatic access to the Toolkit API 
     services through the OAuth2 client credentials flow. 
     
@@ -26,7 +26,7 @@ info:
     endpoint with the "client_credentials" `grant_type`. The following cURL command demonstrates the request syntax.
 
     ```
-    curl -X POST https://api.villain.network/oauth2/token \
+    curl -X POST https://api.typovillain.com/oauth2/token \
         -H "Content-Type: application/x-www-form-urlencoded" \
         -d "grant_type=client_credentials&client_id=xxxxxx&client_secret=xxxxxx"
     ```
@@ -71,7 +71,7 @@ paths:
         Obtain an Access Token via the OAuth2.0 Client Credentials Flow.
 
         These values are available on your profile page.
-      operationId: get_token
+      operationId: Get Token
       requestBody:
         content:
           application/x-www-form-urlencoded:

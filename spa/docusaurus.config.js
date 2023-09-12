@@ -84,7 +84,7 @@ const config = {
           {
             to: "/docs",
             position: "left",
-            label: "Documentation",
+            label: "API",
           },
           {
             href: "https://github.com/cyber-villains",
@@ -96,7 +96,12 @@ const config = {
       },
       footer: {
         style: "dark",
-        copyright: `${process.env.GIT_REF_HASH} © ${new Date().getFullYear()} Villain LLC`,
+        copyright: `
+        <small>
+          ${process.env.GIT_REF_HASH} © ${new Date().getFullYear()} Villain LLC 
+           &bull; <a href="/terms-of-service">Terms of Service</a>
+           &bull; <a href="/privacy-policy">Privacy Policy</a>
+          </small>`,
       },
       prism: {
         theme: lightCodeTheme,

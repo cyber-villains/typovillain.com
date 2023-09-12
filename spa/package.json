@@ -1,6 +1,6 @@
 {
   "name": "demo",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -34,6 +34,7 @@
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^17.0.2",
     "react-modal": "^3.16.1",
+    "react-player": "^2.13.0",
     "react-type-animation": "^3.1.0",
     "url": "^0.11.0",
     "url-loader": "^4.1.1",

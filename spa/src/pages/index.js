@@ -41,6 +41,12 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--primary button--lg"
+            to="/about/intro"
+          >
+            Learn More
+          </Link>
+          <Link
+            className="ms-2 button button--outline button--lg"
             to="/docs"
           >
             Get Started
@@ -61,7 +67,6 @@ export default function Home() {
       <HomepageHeader />
       <main className="bt-1">
         <HomepageProjects />
-        <hr className="mt-2 bg-dark"/>
         <EnterpriseCallout />
       </main>
     </Layout>

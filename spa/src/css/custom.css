@@ -285,6 +285,10 @@ body {
   padding: 30px !important;
 }
 
+.pb-10 {
+  padding-bottom: 25px !important;
+}
+
 :focus {
   outline: 0;
 }
@@ -299,7 +303,7 @@ body {
 }
 
 .bg-dark {
-  background-color: #30363d !important;
+  background-color: #21262d !important;
 }
 
 .me-2 {
@@ -463,4 +467,12 @@ td ul {
 
 .fw-normal {
   font-weight: normal;
+}
+
+.ms-2 {
+  margin-left: 10px;
+}
+
+.mt-2 {
+  margin-top: 10px;
 }

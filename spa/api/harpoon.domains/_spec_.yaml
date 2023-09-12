@@ -10,7 +10,7 @@ info:
 
     Feature Highlights:
     - Support for monitoring similarity for up to 5 domain names per project
-    - Set a notification target to receive alerts (email) when a similar domain is found (HTTP target types coming soon!)
+    - Set a notification target to receive alerts (email) when a similar domain is found
     - Integrates with the swordphish.io API, to automatically scan suspicious domains in real-time
   contact: {}
   version: 0.1.4
