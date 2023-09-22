@@ -52,4 +52,4 @@ You can read more about Harpoon-Enterprise [here](/about/enterprise/harpoon-ente
 Thanks for checking out TypoVillain! If you have any questions, please reach out. We'd be happy to chat.
 
 — The Team at TypoVillain
-(info@typovillain.com)
+(support@typovillain.com)

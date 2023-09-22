@@ -35,7 +35,7 @@ function HomepageHeader() {
   return (
     <header className={clsx("hero hero--primary img-responsive", styles.heroBanner)}>
       <div className="container">
-        <img src={png} width="64" className="img-responsive" role="img" />
+        <img src={png} width="96" className="img-responsive" role="img" />
         <h1 className="hero__title"><TypewriterComponent/></h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
@@ -49,7 +49,7 @@ function HomepageHeader() {
             className="ms-2 button button--outline button--lg"
             to="/docs"
           >
-            Get Started
+            Documentation
           </Link>
         </div>
       </div>

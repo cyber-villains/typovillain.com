@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  title: "Authentication"
+  title: 🔑 Authentication
   description: |
     Authentication is performed via the OAuth2 client credentials flow.
 
@@ -54,7 +54,6 @@ info:
 
     Access tokens have a max-age of 60 minutes. If the runtime of your program or application is expect to take longer than 60 minutes,
     you should write logic to handle requesting a new token after this period.
-    :::
   version: "0.1.0"
 servers:
 - url: "https://api.typovillain.com/"

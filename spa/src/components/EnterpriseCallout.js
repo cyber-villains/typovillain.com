@@ -26,7 +26,7 @@ export default function EnterpriseCallout() {
                         </Link>
                     </div>
                     <div className="col col--5 mt-2 text--center">
-                        <img src={require('@site/static/img/laptop.png').default}/>
+                        <img src={require('@site/static/img/harpoon-b2b.png').default}/>
                     </div>
                 </div>
             </div>
