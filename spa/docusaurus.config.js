@@ -84,7 +84,12 @@ const config = {
           {
             to: "/docs",
             position: "left",
-            label: "API",
+            label: "Docs",
+          },
+          {
+            to: "/about/tutorials/intro",
+            position: "left",
+            label: "Tutorials",
           },
           {
             href: "https://github.com/cyber-villains",
