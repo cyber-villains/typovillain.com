@@ -205,7 +205,7 @@ paths:
 
         <div class="theme-admonition theme-admonition-info alert alert--info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module"><div class="admonitionHeading_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">ℹ️ INFO</div>
           <div class="admonitionContent_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">
-            <p>
+            <p class="mb-0">
             By default, results from this endpoint are returned in descending order by `timestamp`.
             That is, newer notifications are always returned first.
             </p>
@@ -254,7 +254,7 @@ paths:
 
         <div class="theme-admonition theme-admonition-info alert alert--info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module"><div class="admonitionHeading_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">ℹ️ INFO</div>
           <div class="admonitionContent_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">
-            <p>
+            <p class="mb-0">
             Users are limited to <u>one</u> notification target at this time.
             </p>
           </div>

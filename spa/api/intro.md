@@ -3,7 +3,7 @@ sidebar_position: 0
 slug: /
 ---
 
-# Overview
+# 📍 Overview
 
 Welcome to TypoVillain's interactive API documentation.
 
