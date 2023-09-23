@@ -146,7 +146,7 @@ paths:
 
         <div class="theme-admonition theme-admonition-info alert alert--info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module"><div class="admonitionHeading_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">ℹ️ INFO</div>
           <div class="admonitionContent_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">
-            <p>
+            <p class="mb-0">
             For scan responses > 10MB, the request will be redirected to the static location of the JSON data. 
             In these scenarios, please ensure your application will "follow redirects" when requesting scans.
             </p>

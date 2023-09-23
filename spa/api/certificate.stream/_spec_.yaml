@@ -234,15 +234,16 @@ paths:
 
         <div class="theme-admonition theme-admonition-info alert alert--info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module"><div class="admonitionHeading_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">ℹ️ INFO</div>
           <div class="admonitionContent_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">
-            <p>
+            <p class="mb-0">
             This endpoint redirects to a static copy of the CSV, which on average is about ~250MB in size.
             Ensure your applications can "follow redirects" and can efficiently read the response.
             </p>
           </div>
         </div>
+        <br/>
         <div class="theme-admonition theme-admonition-info alert alert--info admonition_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module"><div class="admonitionHeading_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">ℹ️ INFO</div>
           <div class="admonitionContent_node_modules-@docusaurus-theme-classic-lib-theme-Admonition-styles-module">
-            <p>
+            <p class="mb-0">
             To ensure consistency when handling late arriving data, the CSV file for previous hour is available
             at the earliest 5 minutes after the hour. For example, the domains from the hour 5:00AM-6:00AM would 
             available at 6:05AM.
