@@ -97,6 +97,12 @@ const config = {
             className: "header-github-link",
             "aria-label": "GitHub repository",
           },
+          {
+            href: "https://x.com/typovillain",
+            position: "right",
+            className: "header-x-link",
+            "aria-label": "X.com",
+          },
         ],
       },
       footer: {
